@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+  <display-name>Magic Mirror Application</display-name>
+
+  <description>
+    This web application responds to any GET or POST requests and forward it to the mirror, which is another application
+  </description>
+  
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <welcome-file-list>
+    <welcome-file>/staticFiles/index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
