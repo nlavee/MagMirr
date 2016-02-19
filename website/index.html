@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="css/base.css">
+        <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
         <title>MagMirr Login</title>
     </head>
     
@@ -10,12 +10,12 @@
         <!-- Navigation Bar -->
         <div class="navbar">
         <ul class="navbarContent">
-            <li><a href="index.html">Home</a></li>
+            <li><a class="active" href="index.html">Home</a></li>
             <li><a href="status.html">Status</a></li>
             <li><a href="contact.html">Contact</a></li>
             <ul style="float:right;list-style-type:none;">
                 <li><a href="about.html">About</a></li>
-                <li><a  class="active" href="index.html">Login</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </ul>
         </div>
@@ -25,7 +25,7 @@
         
         <!-- Website Content -->
         <div class="welcome">
-        <h1 id="welcome" class="instruction">Welcome To The Authentication Page For MagMirr 0.0.</h1>
+        <h1 id="welcome" class="instruction">Welcome To The MagMirr 0.0.</h1>
             <hr/>
         </div>
         
@@ -38,6 +38,7 @@
                 Password: <input type=password id="pwd" maxlength="100" class="input"/>
                 <br/>
                 Remember me? <input type="checkbox" id="remember" class="input"/>
+                <input type="submit" id="submit" class="input" value="submit"/>
             </form>
         </div>
         
