@@ -34,14 +34,19 @@
             <h2 id="info" class="instruction">Sign Up to Start Using MagMirr</h2>
             <br/>
             <form method="post" id="signup" class="signup" action="signup">
-                Username: <input type="text" id="username" maxlength="100" class="input" name="user_name"/>
+                Username* : <input type="text" id="username" maxlength="100" class="input" name="user_name"/>
                 <br/>
-                Email: <input type="email" id="email" maxlength="100" class="input" name="email"/>
+                First Name* : <input type="text" id="firstName" maxlength="100" class="input" name="first_name"/>
+               	<br/>
+               	Last Name* : <input type="text" id="lastName" maxlength="100" class="input" name="last_name"/>
+               	</br>
+                Email* : <input type="email" id="email" maxlength="100" class="input" name="email"/>
                 <br/>
-                Password: <input type=password id="pwd" maxlength="100" class="input" name="password"/>
+                Password* : <input type=password id="pwd" maxlength="100" class="input" name="password"/>
                 <br/>
                 <input type="submit" id="submit" class="input" value="submit"/>
             </form>
+            <p><i>* means the field is required to be completed.</i></p>
         </div>
         
         <div class="authenticate" id = "existing_user">

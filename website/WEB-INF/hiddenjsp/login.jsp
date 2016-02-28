@@ -51,13 +51,14 @@
 		<h2 id="info" class="instruction">Please log into your account</h2>
 		<br />
 		<form method="post" id="auth" class="auth" action="main">
-			Username: <input type="text" id="username" maxlength="100"
-				class="input" name="<%=userName%>" /> <br /> Password: <input
+			Username* : <input type="text" id="username" maxlength="100"
+				class="input" name="<%=userName%>" /> <br /> Password* : <input
 				type=password id="pwd" maxlength="100" class="input"
 				name="<%=password%>" /> <br /> Remember me? <input type="checkbox"
 				id="remember" class="input" name="<%=remember%>" /> <input
 				type="submit" id="submit" class="input" value="submit" />
 		</form>
+		<p><i>* means the field is required to be completed.</i></p>
 		<p>
 			Don't have an account? You can created one <a href="index.html">here</a>
 		</p>

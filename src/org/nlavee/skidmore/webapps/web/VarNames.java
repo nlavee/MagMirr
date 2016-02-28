@@ -6,6 +6,8 @@ public class VarNames {
 	public final static String PASSWORD_PARAM_FIELD_NAME = "password";
 	public final static String REMEMBER_PARAM_FIELD_NAME = "remember";
 	public final static String EMAIL_PARAM_FIELD_NAME = "email";
+	public final static String FIRST_NAME_PARAM_FIELD_NAME = "first_name";
+	public final static String LAST_NAME_PARAM_FIELD_NAME = "last_name";
 	public final static String AUTHENTICATED_ATTRIBUTES_NAME = "authenticated";
 	public final static String ABOUT_MODE = "about";
 	public final static String CONTACT_MODE = "contact";
@@ -14,6 +16,9 @@ public class VarNames {
 	public final static String STATUS_MODE = "status";
 	public final static String LOGOUT_MODE = "logout";
 	public final static String MAIN_TEXT_BOX ="message_box";
+	public final static String MAIN_ZIPCODE = "zipcode";
+	public static final String ZIPCODE_WEATHER = "zipcode_weather";
+	public static final String TEMP_WEATHER = "temp_weather";
 	
 	/*
 	 * JSP path to login.jsp
@@ -44,5 +49,7 @@ public class VarNames {
 	 * JSP path to contact.jsp
 	 */
 	public final static String CONTACT_JSP = "/WEB-INF/hiddenjsp/contact.jsp";
+
+	
 
 }

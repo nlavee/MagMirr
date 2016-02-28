@@ -30,6 +30,8 @@ public class UserInterfaceImpl implements UserInterface{
 		String userName = user.getUserName();
 		String pwd = user.getPassword();
 		String email = user.getEmail();
+		String firstName = user.getFirstName();
+		String lastName = user.getLastName();
 		
 		/*
 		 * TODO Save the above to database
@@ -40,7 +42,7 @@ public class UserInterfaceImpl implements UserInterface{
 		/*
 		 * Create the new User Bean
 		 */
-		User userReturn = new User(userName, pwd);
+		User userReturn = new User(userName, pwd, firstName);
 		
 		return userReturn;
 	}

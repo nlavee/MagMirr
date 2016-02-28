@@ -15,7 +15,7 @@ import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
 public class Signup extends HttpServlet{
-	
+
 	/**
 	 * The internal version id of this class
 	 */
@@ -33,11 +33,11 @@ public class Signup extends HttpServlet{
 
 	public Signup(){
 	}
-	
+
 	public void init(ServletConfig config) {
 		LOGGER.warn("Servlet init.  Version: " + VERSION);
 	}
-	
+
 	/**
 	 * This method just redirect get request back to the
 	 * initial form now
@@ -57,7 +57,7 @@ public class Signup extends HttpServlet{
 		LOGGER.info("GET request sent to LOGIN servlet");
 		resp.sendRedirect(req.getContextPath());
 	}
-	
+
 	/**
 	 * This method calls the controller method
 	 *
@@ -79,34 +79,67 @@ public class Signup extends HttpServlet{
 
 	private void signup(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		
-		String userName = req.getParameter(VarNames.USER_PARAM_FIELD_NAME);
-		String password = req.getParameter(VarNames.PASSWORD_PARAM_FIELD_NAME);
-		String email = req.getParameter(VarNames.EMAIL_PARAM_FIELD_NAME);
-		
-		NewUser newUser = new NewUser(userName, password, email);
-		User user = registerNewUser(newUser);
-		
-		req.getSession().setAttribute(VarNames.USER_PARAM_FIELD_NAME, user.getUserName());
-		req.getSession().setAttribute(VarNames.PASSWORD_PARAM_FIELD_NAME, user.getPassword());
-		req.getSession().setAttribute(VarNames.EMAIL_PARAM_FIELD_NAME, email);
-		req.getSession().setAttribute(VarNames.AUTHENTICATED_ATTRIBUTES_NAME, true);
-		
-		req.getRequestDispatcher(VarNames.SIGN_UP_RESULT_JSP).forward(req, resp);
+
+		/*
+		 * If they didn't fill in everything
+		 */
+		if(req.getParameter(VarNames.USER_PARAM_FIELD_NAME) == null || 
+				req.getParameter(VarNames.PASSWORD_PARAM_FIELD_NAME) == null ||
+				req.getParameter(VarNames.EMAIL_PARAM_FIELD_NAME) == null ||
+				req.getParameter(VarNames.FIRST_NAME_PARAM_FIELD_NAME) == null ||
+				req.getParameter(VarNames.LAST_NAME_PARAM_FIELD_NAME) == null
+				)
+		{
+			// TODO need to determine appropriate response here
+			req.getRequestDispatcher(VarNames.LOGIN_JSP).forward(req, resp);
+		}
+		else
+		{
+
+			String userName = req.getParameter(VarNames.USER_PARAM_FIELD_NAME);
+			String password = req.getParameter(VarNames.PASSWORD_PARAM_FIELD_NAME);
+			String email = req.getParameter(VarNames.EMAIL_PARAM_FIELD_NAME);
+			String firstName = req.getParameter(VarNames.FIRST_NAME_PARAM_FIELD_NAME);
+			String lastName = req.getParameter(VarNames.LAST_NAME_PARAM_FIELD_NAME);
+
+			/*
+			 * Check if they leave blank
+			 */
+			if(userName.trim().isEmpty() || password.trim().isEmpty()
+					|| email.trim().isEmpty() || firstName.trim().isEmpty() ||
+					lastName.trim().isEmpty())
+			{
+				// TODO need to determine appropriate response here
+				req.getRequestDispatcher(VarNames.LOGIN_JSP).forward(req, resp);
+			}
+			else
+			{
+				NewUser newUser = new NewUser(userName, password, email, firstName, lastName);
+				User user = registerNewUser(newUser);
+
+				req.getSession().setAttribute(VarNames.USER_PARAM_FIELD_NAME, user.getUserName());
+				req.getSession().setAttribute(VarNames.PASSWORD_PARAM_FIELD_NAME, user.getPassword());
+				req.getSession().setAttribute(VarNames.FIRST_NAME_PARAM_FIELD_NAME, user.getFirstName());
+				req.getSession().setAttribute(VarNames.EMAIL_PARAM_FIELD_NAME, email);
+				req.getSession().setAttribute(VarNames.AUTHENTICATED_ATTRIBUTES_NAME, true);
+
+				req.getRequestDispatcher(VarNames.SIGN_UP_RESULT_JSP).forward(req, resp);
+			}
+		}
 	}
 
 	private User registerNewUser(NewUser newUser) {
-		
+
 		/*
 		 * Save in database
 		 */
 		UserInterfaceImpl userOps = new UserInterfaceImpl();
 		User user = userOps.RegisterUser(newUser);
-		
+
 		return user;
 	}
-	
-	
-	
-	
+
+
+
+
 }

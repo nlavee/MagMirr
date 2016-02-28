@@ -104,6 +104,45 @@
     <url-pattern>/signup/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>weather</servlet-name>
+    <display-name>Weather Servlet</display-name>
+    <description>The controller that allows user to control where they want their weather to come from.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.Weather</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>weather</servlet-name>
+    <url-pattern>/weather/*</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>news</servlet-name>
+    <display-name>News Servlet</display-name>
+    <description>The controller that allows user to control what news section they like to see.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.News</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>news</servlet-name>
+    <url-pattern>/news/*</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>uber</servlet-name>
+    <display-name>Uber Servlet</display-name>
+    <description>The controller that allows user to work with Uber SDK.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.UberOps</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>uber</servlet-name>
+    <url-pattern>/uber_ops/*</url-pattern>
+  </servlet-mapping>
+  
     <!-- Preload the JSP -->
   <servlet>
     <servlet-name>edittask-jsp</servlet-name>

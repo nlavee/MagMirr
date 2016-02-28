@@ -13,6 +13,9 @@
 	String main = VarNames.MAIN_MODE;
 	String logout = VarNames.LOGOUT_MODE;
 	String textBox = VarNames.MAIN_TEXT_BOX;
+	String zipcode = VarNames.MAIN_ZIPCODE;
+	String currentZipCode = VarNames.ZIPCODE_WEATHER;
+	String currentTemp = VarNames.TEMP_WEATHER;
 %>
 
 <html>
@@ -26,7 +29,7 @@
 	<!-- Navigation Bar -->
 	<div class="navbar">
 		<ul class="navbarContent">
-			<li><a class="active" 
+			<li><a class="active"
 				href="<%=(request.getSession().getAttribute(authenticated) == null ? "index.html"
 					: "main")%>">Home</a></li>
 			<li><a href="<%=status%>">Status</a></li>
@@ -51,15 +54,65 @@
 		<hr />
 	</div>
 
-	<form action="/message">
-		<fieldset>
-			<legend>Message broadcast</legend>
-			<textarea name=<%=textBox%> cols="50" rows="5">
+	<div id="message_posting" class="mode_ops">
+		<form action="message">
+			<fieldset>
+				<legend>Message broadcast</legend>
+				<textarea name=<%=textBox%> cols="50" rows="5">
 				Enter some text...
 			</textarea>
-			<br /> <input type="submit" value="Submit">
-		</fieldset>
-	</form>
+				<br /> <input type="submit" value="Submit">
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="weather_choosing" class="mode_ops">
+		<form action="weather" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>Weather Display Tool</legend>
+				Your Zipcode: <input type="number" name=<%=zipcode%> /> <input
+					type="submit" id="submit" class="input" value="Display Weather" />
+					<br/>
+					<%
+						if(request.getSession().getAttribute(currentZipCode) != null)
+						{
+							%>
+							<p>Current weather is displayed for zipcode: <%=request.getSession().getAttribute(currentZipCode)%>. Current Temperature is <%=request.getSession().getAttribute(currentTemp) %>&#x2103;.</p>
+							<%
+						}
+						else
+						{
+							// load the zip code from previous section ?
+						}
+					%>
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="news_choosing" class="mode_ops">
+		<form action="news" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>News Selection Tool</legend>
+				Your Selection of Topics: <br /> <select multiple>
+					<option value="technology">Technology</option>
+					<option value="sports">Sports</option>
+					<option value="pol">Politics</option>
+					<option value="econs">Economics</option>
+				</select><br /> <input type="submit" id="submit" class="input"
+					value="Select Interested Topics" />
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="uber_authentication" class="mode_ops">
+		<form action="uber_ops" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>Uber Authentication Tool</legend>
+				<input type="submit" id="submit" class="input"
+					value="Authenticate with Uber" />
+			</fieldset>
+		</form>
+	</div>
 
 	<div class="info">
 		<p>
