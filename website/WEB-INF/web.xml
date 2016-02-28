@@ -9,8 +9,110 @@
     This web application responds to any GET or POST requests and forward it to the mirror, which is another application
   </description>
   
+  <servlet>
+    <servlet-name>login</servlet-name>
+    <display-name>Login Servlet</display-name>
+    <description>The controller that allows user to login</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.auth.Login</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+  		<param-name>RdbDriverClass</param-name>
+  		<param-value>com.mysql.jdbc.Driver</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>login</servlet-name>
+    <url-pattern>/main/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>logout</servlet-name>
+    <display-name>Logout Servlet</display-name>
+    <description>The controller that allows user to log out</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.auth.Logout</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>logout</servlet-name>
+    <url-pattern>/logout/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>message</servlet-name>
+    <display-name>Message Servlet</display-name>
+    <description>The controller that process message from User.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.Message</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>message</servlet-name>
+    <url-pattern>/message/*</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>status</servlet-name>
+    <display-name>Status Servlet</display-name>
+    <description>The controller that allows user to see the status of the mirror</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.Status</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>status</servlet-name>
+    <url-pattern>/status/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>about</servlet-name>
+    <display-name>About Servlet</display-name>
+    <description>The controller that allows user to see the about page of the mirror</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.About</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>about</servlet-name>
+    <url-pattern>/about/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>contact</servlet-name>
+    <display-name>Contact Servlet</display-name>
+    <description>The controller that allows user to see the contact page of the mirror</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.Contact</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>contact</servlet-name>
+    <url-pattern>/contact/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>signup</servlet-name>
+    <display-name>Signup Servlet</display-name>
+    <description>The controller that allows user to sign up</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.auth.Signup</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>signup</servlet-name>
+    <url-pattern>/signup/*</url-pattern>
+  </servlet-mapping>
+  
+    <!-- Preload the JSP -->
+  <servlet>
+    <servlet-name>edittask-jsp</servlet-name>
+    <jsp-file>/WEB-INF/hiddenjsp/login.jsp</jsp-file>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>120</session-timeout>
   </session-config>
 
   <welcome-file-list>

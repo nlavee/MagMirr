@@ -1,19 +1,17 @@
-package org.nlavee.skidmore.webapps.web;
+package org.nlavee.skidmore.webapps.web.mode;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class Controller extends HttpServlet {
+public class Contact extends HttpServlet{
 	/**
 	 * The internal version id of this class
 	 */
@@ -27,8 +25,12 @@ public class Controller extends HttpServlet {
 	/**
 	 * Logger Instance
 	 */
-	private static Logger LOGGER = Logger.getLogger(Controller.class);
-
+	private static Logger LOGGER = Logger.getLogger(Contact.class);
+ 
+	public Contact(){
+		
+	}
+	
 	/**
 	 * Called by container when servlet instance is created. This method sets-up
 	 * the logger and DB connection properties.
@@ -39,13 +41,7 @@ public class Controller extends HttpServlet {
 	public void init(ServletConfig config) {
 		LOGGER.warn("Servlet init.  Version: " + VERSION);
 	}
-
-	/**
-	 * The constructor - no operations carried out here
-	 */
-	public Controller() {
-	}
-
+	
 	/**
 	 * This method just redirect get request back to the
 	 * initial form now
@@ -62,7 +58,8 @@ public class Controller extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		LOGGER.info("GET request sent to servlet");
+		LOGGER.info("GET request sent to LOGIN servlet");
+		getContact(req,resp);
 	}
 
 	/**
@@ -80,23 +77,12 @@ public class Controller extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		controller(req, resp);
+		LOGGER.info("POST request sent to LOGIN servlet");
+		getContact(req, resp);
 	}
-
-	/**
-	 * This method (controller) determines the requested mode and sets-up the
-	 * proper beans (model) before forwarding to the appropriate JSP (view).
-	 *
-	 * @param req
-	 *            The request
-	 * @param resp
-	 *            The response
-	 *
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	private void controller(HttpServletRequest req, HttpServletResponse resp)
+	
+	private void getContact(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		
+		req.getRequestDispatcher(VarNames.CONTACT_JSP).forward(req,resp);
 	}
 }
