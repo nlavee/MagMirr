@@ -1,6 +1,8 @@
 <!-- main -->
 
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%
 	String userName = VarNames.USER_PARAM_FIELD_NAME;
 	String password = VarNames.PASSWORD_PARAM_FIELD_NAME;
@@ -16,6 +18,9 @@
 	String zipcode = VarNames.MAIN_ZIPCODE;
 	String currentZipCode = VarNames.ZIPCODE_WEATHER;
 	String currentTemp = VarNames.TEMP_WEATHER;
+	String firstName = VarNames.FIRST_NAME_PARAM_FIELD_NAME;
+	Date date = new Date();
+	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd, MMMMM, yyyy hh:mm aaa");
 %>
 
 <html>
@@ -49,8 +54,9 @@
 	<div class="welcome">
 		<h1 id="welcome" class="instruction">MagMirr 0.0 Main Dashboard.</h1>
 		<h3 class="instruction">
-			Hello,
-			<%=request.getSession().getAttribute(userName)%></h3>
+			Hello
+			<%=(request.getSession().getAttribute(firstName) == null ? "there." : (request.getSession().getAttribute(firstName)+ "."))%></h3>
+			<h4><%=dateFormatter.format(date)%></h4>
 		<hr />
 	</div>
 
@@ -58,9 +64,7 @@
 		<form action="message">
 			<fieldset>
 				<legend>Message broadcast</legend>
-				<textarea name=<%=textBox%> cols="50" rows="5">
-				Enter some text...
-			</textarea>
+				<textarea name=<%=textBox%> cols="50" rows="5">Enter your message here...</textarea>
 				<br /> <input type="submit" value="Submit">
 			</fieldset>
 		</form>

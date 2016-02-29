@@ -14,6 +14,7 @@
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
+<link rel="stylesheet" type="text/css" href="staticFiles/css/contact.css">
 <title>Contact</title>
 </head>
 
@@ -40,13 +41,14 @@
 
 	<!-- Website Content -->
 
-	<div class="socialMedia">
+	<div class="socialMedia" >
 		<h1>You can find me on the following social media</h1>
 		<a href="https://www.linkedin.com/pub/anh-vu-nguyen/41/4ba/b27"> <img
 			src="https://static.licdn.com/scds/common/u/img/webpromo/btn_viewmy_120x33.png"
 			width="120" height="33" border="0"
 			alt="View Anh Vu Nguyen's profile on LinkedIn">
-
+		<br/>
+		
 		</a> <a href="https://twitter.com/nlavee" class="twitter-follow-button"
 			data-show-count="false" data-size="large">Follow @nlavee</a>
 		<script>
@@ -61,15 +63,17 @@
 				}
 			}(document, 'script', 'twitter-wjs');
 		</script>
-
+		<br/>
+		
 		<iframe src="http://githubbadge.appspot.com/nlavee?a=0"
 			style="border: 0; height: 142px; width: 200px; overflow: hidden;"
 			frameBorder="0"></iframe>
-
+		<br/>
+		
 		<script async src="https://static.medium.com/embed.js"></script>
 		<a class="m-profile" href="https://medium.com/@nlavee">Anh Vu L
 			Nguyen</a>
-
+		<br/>
 
 	</div>
 

@@ -12,14 +12,15 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
-        <title>MagMirr Status</title>
-    </head>
-    
-    <body>
-        <!-- Navigation Bar -->
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
+<link rel="stylesheet" type="text/css" href="staticFiles/css/status.css">
+<title>MagMirr Status</title>
+</head>
+
+<body>
+	<!-- Navigation Bar -->
 	<div class="navbar">
 		<ul class="navbarContent">
 			<li><a
@@ -33,17 +34,23 @@
 			</ul>
 		</ul>
 	</div>
-        
-        <br/>
-        <br/>
-        
-        <!-- Website Content -->
-        <H1>The mirror is currently <%=(state == null) ? "offline" : "online"%>.</H1>
-        
-        
-        <div class="info">
-        <p><i>&lt;working project of @nlavee (vu.nguyen@skidmore.edu).&gt;</i></p>
-        </div>
-        
-    </body>
+
+	<br />
+	<br />
+
+	<!-- Website Content -->
+	<div class="status_info">
+		<H1>
+			The mirror is currently
+			<%=(state == null) ? "offline" : "online"%>.
+		</H1>
+	</div>
+
+	<div class="info">
+		<p>
+			<i>&lt;working project of @nlavee (vu.nguyen@skidmore.edu).&gt;</i>
+		</p>
+	</div>
+
+</body>
 </html>
