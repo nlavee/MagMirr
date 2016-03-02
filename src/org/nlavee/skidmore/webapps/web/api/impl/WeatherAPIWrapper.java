@@ -10,7 +10,7 @@ import java.net.URL;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.web.api.WeatherInterface;
 
-public class WeatherAPI implements WeatherInterface{
+public class WeatherAPIWrapper implements WeatherInterface{
 
 	@Override
 	public JSONObject getWeather(Integer zipcode) {

@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
+import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.UberAPIWrapper;
 
 public class UberOps extends HttpServlet{
 
@@ -85,7 +88,26 @@ public class UberOps extends HttpServlet{
 
 	private void UberRideProcess(HttpServletRequest req,
 			HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		
+		/*
+		 * Process to get lat and lon, create Coord Object
+		 */
+		
+		//TODO find a way to get lat and lon from req.
+		Double lat = new Double(0.0);
+		Double lon = new Double(0.0);
+		
+		Coords coord = new Coords(lat, lon);
+		
+		/*
+		 * Send to Uber API Wrapper
+		 */
+		UberAPIWrapper uber = new UberAPIWrapper();
+		JSONObject uberRideResponse = uber.getRides(coord);
+		
+		/*
+		 * Manipulate uberRideResponse
+		 */
 		
 	}
 }

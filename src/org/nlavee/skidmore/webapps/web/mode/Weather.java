@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.web.VarNames;
-import org.nlavee.skidmore.webapps.web.api.impl.WeatherAPI;
+import org.nlavee.skidmore.webapps.web.api.impl.WeatherAPIWrapper;
 
 public class Weather extends HttpServlet{
 
@@ -99,7 +99,7 @@ public class Weather extends HttpServlet{
 				/*
 				 * Process with Weather API
 				 */
-				WeatherAPI weatherAPI = new WeatherAPI();
+				WeatherAPIWrapper weatherAPI = new WeatherAPIWrapper();
 				JSONObject currWeather = weatherAPI.getWeather(zipcodeInt);
 
 				JSONObject mainJson = (JSONObject) currWeather.get("main");
