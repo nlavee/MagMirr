@@ -9,7 +9,7 @@ import org.nlavee.skidmore.webapps.database.beans.User;
 
 public interface UserInterface {
 
-	public boolean AuthenticateUser(User user);
+	public boolean AuthenticateUser(User user) throws NoSuchAlgorithmException, NoSuchProviderException;
 	public User RegisterUser(NewUser user) throws NoSuchAlgorithmException, NoSuchProviderException, IllegalStateException;
 	public boolean saveMessage(String body, Date date);
 }

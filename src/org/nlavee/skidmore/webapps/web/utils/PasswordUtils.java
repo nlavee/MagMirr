@@ -54,7 +54,7 @@ public class PasswordUtils {
 		LOGGER.info("Checking the two Password object");
 		
 		boolean valid = false;
-		if(getSecurePassword(input, db.getSalt()).equals(getSecurePassword(db.getPwdHash(), db.getSalt())))
+		if(getSecurePassword(input, db.getSalt()).equals(db.getPwdHash()))
 		{
 			valid = true;
 		}

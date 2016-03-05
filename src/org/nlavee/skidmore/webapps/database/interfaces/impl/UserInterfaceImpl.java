@@ -16,7 +16,7 @@ import org.nlavee.skidmore.webapps.web.utils.PasswordUtils;
 public class UserInterfaceImpl implements UserInterface{
 
 	@Override
-	public boolean AuthenticateUser(User user) {
+	public boolean AuthenticateUser(User user) throws NoSuchAlgorithmException, NoSuchProviderException {
 		
 		String userName = user.getUserName();
 		String password = user.getPassword();
@@ -24,9 +24,10 @@ public class UserInterfaceImpl implements UserInterface{
 		/*
 		 * TODO Go to database and fetch pwHash & salt
 		 */
-		//PasswordObj pwdObj = getPwdObject(userName);
+		boolean matchingPassword = UserMapping.isMatchingPassword(password, userName);
 		
-		return true;
+		if(!matchingPassword) return false;
+		else return true;
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class UserInterfaceImpl implements UserInterface{
 		 * TODO Save the above to database
 		 */
 		Password pwdObject = PasswordUtils.generateSaltAndHash(pwd);
-		boolean success = UserMapping.savePassword(pwdObject);
+		boolean success = UserMapping.createUser(pwdObject, user);
 		
 		/*
 		 * Create the new User Bean

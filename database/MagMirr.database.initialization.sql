@@ -14,6 +14,7 @@ create table user (
 	username varchar(50) unique not null,
 	first_name varchar(50),
 	last_name varchar(50),
+	email varchar(50),
 	password_id integer(10),
 	uber_id varchar(50),
 	weather_id varchar(50),

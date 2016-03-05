@@ -1,6 +1,8 @@
 package org.nlavee.skidmore.webapps.web.auth;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,7 +30,7 @@ public class Login extends HttpServlet implements VarNames {
 	 * Logger Instance
 	 */
 	private static Logger LOGGER = Logger.getLogger(Login.class);
- 
+
 	/**
 	 * Called by container when servlet instance is created. This method sets-up
 	 * the logger and DB connection properties.
@@ -115,12 +117,19 @@ public class Login extends HttpServlet implements VarNames {
 
 				User userInvalidated = new User(userName, password);
 
-				boolean isExistingUser = authenticate(userInvalidated);
+				boolean isExistingUser = false;
+				try {
+					isExistingUser = authenticate(userInvalidated);
+				} 
+				catch (NoSuchAlgorithmException | NoSuchProviderException e) 
+				{
+					LOGGER.error("Problem verifying password", e);
+				}
 
 				if(req.getParameter(REMEMBER_PARAM_FIELD_NAME) != null)
 				{
 					// do something to remember, possibly put into session
-					
+
 				}
 
 				if( isExistingUser )
@@ -150,8 +159,10 @@ public class Login extends HttpServlet implements VarNames {
 	 * Method that uses interface to authenticate user. 
 	 * @param An user bean filled with user name and password
 	 * @return boolean true means it's a valid user, false means invalid user
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	private boolean authenticate(User user) {
+	private boolean authenticate(User user) throws NoSuchAlgorithmException, NoSuchProviderException {
 		UserInterfaceImpl userOps = new UserInterfaceImpl();
 		return userOps.AuthenticateUser(user);
 	}
