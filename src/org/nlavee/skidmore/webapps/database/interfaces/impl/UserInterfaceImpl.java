@@ -21,10 +21,8 @@ public class UserInterfaceImpl implements UserInterface{
 		String userName = user.getUserName();
 		String password = user.getPassword();
 		
-		/*
-		 * TODO Go to database and fetch pwHash & salt
-		 */
-		boolean matchingPassword = UserMapping.isMatchingPassword(password, userName);
+		UserMapping um = new UserMapping();
+		boolean matchingPassword = um.isMatchingPassword(password, userName);
 		
 		if(!matchingPassword) return false;
 		else return true;
@@ -39,11 +37,9 @@ public class UserInterfaceImpl implements UserInterface{
 		String firstName = user.getFirstName();
 		String lastName = user.getLastName();
 		
-		/*
-		 * TODO Save the above to database
-		 */
 		Password pwdObject = PasswordUtils.generateSaltAndHash(pwd);
-		boolean success = UserMapping.createUser(pwdObject, user);
+		UserMapping um = new UserMapping();
+		boolean success = um.createUser(pwdObject, user);
 		
 		/*
 		 * Create the new User Bean
@@ -66,6 +62,12 @@ public class UserInterfaceImpl implements UserInterface{
 		 */
 		
 		return true;
+	}
+
+	@Override
+	public String getFirstName(String userName) {
+		UserMapping um = new UserMapping();
+		return um.getFirstName(userName);
 	}
 
 }

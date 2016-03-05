@@ -2,6 +2,8 @@ package org.nlavee.skidmore.webapps.database.dao;
 
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.backends.DatabaseConnection;
+import org.nlavee.skidmore.webapps.database.interfaces.ConfigurationProperty;
+import org.nlavee.skidmore.webapps.web.config.MagMirrProperties;
 
 
 public class DatabaseAccess {
@@ -42,14 +44,14 @@ public class DatabaseAccess {
 	 */
 	private DatabaseAccess()
 	{
-//		driver = MaTricksProperties.getInstance()
-//			.getValue(ConfigurationProperty.DATABASE_DRIVER);
-//		connectionUrl = MaTricksProperties.getInstance()
-//			.getValue(ConfigurationProperty.DATABASE_URL);
-//		userId = MaTricksProperties.getInstance()
-//			.getValue(ConfigurationProperty.DATABASE_USERID);
-//		password = MaTricksProperties.getInstance()
-//			.getValue(ConfigurationProperty.DATABASE_PASSWORD);
+		driver = MagMirrProperties.getInstance()
+				.getValue("driver");
+		connectionUrl = MagMirrProperties.getInstance()
+				.getValue("url");
+		userId = MagMirrProperties.getInstance()
+				.getValue("userID");
+		password = MagMirrProperties.getInstance()
+				.getValue("dbPassword");
 	}
 
 	/**
@@ -74,8 +76,13 @@ public class DatabaseAccess {
 	 */
 	public DatabaseConnection getConnection()
 	{
+		System.out.println(driver);
+		System.out.println(connectionUrl);
+		System.out.println(userId);
+		System.out.println(password);
 		return new DatabaseConnection(driver, connectionUrl, userId,
 			password);
 	}
 
+	
 }

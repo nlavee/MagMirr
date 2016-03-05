@@ -12,4 +12,5 @@ public interface UserInterface {
 	public boolean AuthenticateUser(User user) throws NoSuchAlgorithmException, NoSuchProviderException;
 	public User RegisterUser(NewUser user) throws NoSuchAlgorithmException, NoSuchProviderException, IllegalStateException;
 	public boolean saveMessage(String body, Date date);
+	public String getFirstName(String userName);
 }

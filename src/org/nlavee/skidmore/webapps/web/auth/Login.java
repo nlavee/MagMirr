@@ -102,11 +102,11 @@ public class Login extends HttpServlet implements VarNames {
 	private void login(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("Processing login request");
-		System.out.println("We get into login class");
+		LOGGER.info("We get into login class");
 
 		if(req.getSession().getAttribute(AUTHENTICATED_ATTRIBUTES_NAME) == null)
 		{
-			System.out.println("authentication is null");
+			LOGGER.info("authentication is null");
 			String pathForwarded = LOGIN_JSP; 
 
 			if( req.getParameter(USER_PARAM_FIELD_NAME) != null && 
@@ -124,6 +124,7 @@ public class Login extends HttpServlet implements VarNames {
 				catch (NoSuchAlgorithmException | NoSuchProviderException e) 
 				{
 					LOGGER.error("Problem verifying password", e);
+					req.setAttribute(LOGIN_UNSUCCESSFUL, true);
 				}
 
 				if(req.getParameter(REMEMBER_PARAM_FIELD_NAME) != null)
@@ -134,25 +135,47 @@ public class Login extends HttpServlet implements VarNames {
 
 				if( isExistingUser )
 				{
-					System.out.println("this is an existing user");
+					LOGGER.info("This is an existing user");
+
+					/*
+					 * Get firstName
+					 */
+					String firstName = getFirstName(userName);
+					LOGGER.info("User's first name: " + userName);
 					pathForwarded = MAIN_JSP;
+					req.getSession().setAttribute(FIRST_NAME_PARAM_FIELD_NAME, firstName);
 					req.getSession().setAttribute(USER_PARAM_FIELD_NAME, userName);
 					req.getSession().setAttribute(AUTHENTICATED_ATTRIBUTES_NAME, true);
+				}
+				else
+				{
+					req.setAttribute(LOGIN_UNSUCCESSFUL, true);
 				}
 			}
 			else
 			{
-				System.out.println("Nothing in input fields");
+				LOGGER.info("Nothing in input fields");
+				req.setAttribute(LOGIN_UNSUCCESSFUL, true);
 			}
 
 			req.getRequestDispatcher(pathForwarded).forward(req, resp);
 		}
 		else
 		{
-			System.out.println("authentication is not null");
+			LOGGER.info("authentication is not null");
 			req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 		}
 
+	}
+
+	/**
+	 * Method that uses interface to get firstName
+	 * @param userName
+	 * @return String firstName of user
+	 */
+	private String getFirstName(String userName) {
+		UserInterfaceImpl userOps = new UserInterfaceImpl();
+		return userOps.getFirstName(userName);
 	}
 
 	/**

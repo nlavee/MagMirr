@@ -19,6 +19,7 @@ public interface VarNames {
 	public final static String MAIN_ZIPCODE = "zipcode";
 	public static final String ZIPCODE_WEATHER = "zipcode_weather";
 	public static final String TEMP_WEATHER = "temp_weather";
+	public static final String LOGIN_UNSUCCESSFUL = "login_unsuccessful";
 	
 	/*
 	 * JSP path to login.jsp

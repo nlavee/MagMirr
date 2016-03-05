@@ -27,7 +27,7 @@ public class Weather extends HttpServlet implements VarNames {
 	private static final String VERSION = "01.00.00";
 
 	/**
-	 * Logger Instance
+	 * LOGGER.error Instance
 	 */
 	private static Logger LOGGER = Logger.getLogger(Weather.class);
 
@@ -37,7 +37,7 @@ public class Weather extends HttpServlet implements VarNames {
 
 	/**
 	 * Called by container when servlet instance is created. This method sets-up
-	 * the logger and DB connection properties.
+	 * the LOGGER.error and DB connection properties.
 	 *
 	 * @param config
 	 *            The servlet configuration
@@ -88,7 +88,7 @@ public class Weather extends HttpServlet implements VarNames {
 	private void getWeather(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 
-		if(req.getParameter(MAIN_ZIPCODE) != null)
+		if(req.getParameter(MAIN_ZIPCODE) != null && !req.getParameter(MAIN_ZIPCODE).equals(""))
 		{
 			String zipcode = (String) req.getParameter(MAIN_ZIPCODE);
 
@@ -128,7 +128,8 @@ public class Weather extends HttpServlet implements VarNames {
 		else
 		{
 			LOGGER.error("Empty field");
-			System.out.println("Empty field for zipcode weather");
+			LOGGER.error("Empty field for zipcode weather");
+			req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 		}
 
 	}

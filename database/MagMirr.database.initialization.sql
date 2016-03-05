@@ -5,7 +5,7 @@ drop database if exists magmirr;
 
 create database magmirr;
 
-grant all on magmirr.* to magmirr identified by 'magmirr';
+grant all on magmirr.* to magmirr_web identified by 'restendingpoint';
 
 use magmirr;
 

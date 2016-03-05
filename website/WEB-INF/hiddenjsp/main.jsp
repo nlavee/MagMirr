@@ -52,10 +52,10 @@
 
 	<!-- Website Content -->
 	<div class="welcome">
-		<h1 id="welcome" class="instruction">MagMirr 0.0 Main Dashboard.</h1>
+		<h1 id="welcome" class="instruction">MagMirr 0.1 Main Dashboard.</h1>
 		<h3 class="instruction">
 			Hello
-			<%=(request.getSession().getAttribute(firstName) == null ? "there." : (request.getSession().getAttribute(firstName)+ "."))%></h3>
+			<%=(request.getSession().getAttribute(firstName) == null ? "there." : ("<u>" + request.getSession().getAttribute(firstName)+ ". </u>"))%></h3>
 			<h4><%=dateFormatter.format(date)%></h4>
 		<hr />
 	</div>

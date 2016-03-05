@@ -21,7 +21,7 @@ public abstract class AbstractMapper
 	/**
 	 * The database access object used for this mapper
 	 */
-	private static DatabaseAccess database;
+	private DatabaseAccess database;
 
 	/**
 	 * Setup the database access.
@@ -35,7 +35,7 @@ public abstract class AbstractMapper
 	 * Get the database access object for this mapper
 	 * @return The database access object
 	 */
-	protected static DatabaseConnection getDatabaseConnection()
+	protected DatabaseConnection getDatabaseConnection()
 	{
 		return database.getConnection();
 	}

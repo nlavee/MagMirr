@@ -13,6 +13,7 @@
 	String about = VarNames.ABOUT_MODE;
 	String main = VarNames.MAIN_MODE;
 	String logout = VarNames.LOGOUT_MODE;
+	String loginProblem = VarNames.LOGIN_UNSUCCESSFUL;
 %>
 <html>
 <head>
@@ -43,12 +44,21 @@
 	<!-- Website Content -->
 	<div class="welcome">
 		<h1 id="welcome" class="instruction">Welcome To The
-			Authentication Page For MagMirr 0.0.</h1>
+			Authentication Page For MagMirr 0.1.</h1>
 		<hr />
 	</div>
 
 	<div class="login" id="login">
 		<h2 id="info" class="instruction">Please log into your account</h2>
+		<%
+			if (request.getAttribute(loginProblem) != null) {
+		%>
+		<p>There was a problem with your username and/or password. Please
+			try again.</p>
+		<%
+			}
+			request.setAttribute(loginProblem, true);
+		%>
 		<br />
 		<form method="post" id="auth" class="auth" action="main">
 			Username* : <input type="text" id="username" maxlength="100"
@@ -58,7 +68,9 @@
 				id="remember" class="input" name="<%=remember%>" /> <input
 				type="submit" id="submit" class="input" value="submit" />
 		</form>
-		<p><i>* means the field is required to be completed.</i></p>
+		<p>
+			<i>* means the field is required to be completed.</i>
+		</p>
 		<p>
 			Don't have an account? You can created one <a href="index.html">here</a>
 		</p>

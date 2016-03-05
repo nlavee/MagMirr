@@ -1,13 +1,9 @@
 package org.nlavee.skidmore.webapps.database.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.backends.DatabaseConnection;
 import org.nlavee.skidmore.webapps.database.beans.NewUser;
 import org.nlavee.skidmore.webapps.database.beans.Password;
-import org.nlavee.skidmore.webapps.database.beans.User;
 import org.nlavee.skidmore.webapps.web.utils.PasswordUtils;
 
 import java.sql.PreparedStatement;
@@ -26,7 +22,7 @@ public class UserMapping extends AbstractMapper {
 	 */
 	public UserMapping()
 	{
-
+		super();
 	}
 
 	/**
@@ -35,7 +31,7 @@ public class UserMapping extends AbstractMapper {
 	 * @param user 
 	 * @return
 	 */
-	public static boolean createUser(Password pwdObject, NewUser user) {
+	public boolean createUser(Password pwdObject, NewUser user) {
 		boolean ret = false;
 
 		String emailAddress = user.getEmail();
@@ -44,14 +40,14 @@ public class UserMapping extends AbstractMapper {
 		/*
 		 * Check to see whether this email/username has been taken
 		 */
-		boolean isExisting = checkExistingCredentials(emailAddress, userName);
+		boolean isExisting = this.checkExistingCredentials(emailAddress, userName);
 
 		/*
 		 * Persist information is username and email are not existing
 		 */
 		if(!isExisting)
 		{
-			boolean success = persistUser(pwdObject, user);
+			boolean success = this.persistUser(pwdObject, user);
 			if(success)
 			{
 				ret = true;
@@ -67,7 +63,7 @@ public class UserMapping extends AbstractMapper {
 	 * @param user
 	 * @return boolean true for a successful process, false o/w
 	 */
-	private static boolean persistUser(Password pwdObject, NewUser user) {
+	private boolean persistUser(Password pwdObject, NewUser user) {
 		boolean ret = false;
 
 		DatabaseConnection connection = null;
@@ -118,25 +114,22 @@ public class UserMapping extends AbstractMapper {
 		String lastName = user.getLastName();
 
 		try {
-			connection = getDatabaseConnection();
+			connection = this.getDatabaseConnection();
 			stmt = connection.setupPreparedStatement(
-					"insert into user (username, first_name, last_name, email, password_id) values (?,?,?,?)"
+					"insert into user (username, first_name, last_name, email, password_id) values (?,?,?,?,?)"
 					);
 			stmt.setString(1, userName);
 			stmt.setString(2, firstName);
 			stmt.setString(3, lastName);
-			stmt.setInt(4, id); // just persist even if id remains -1, we'll do an update later.
+			stmt.setString(4, email);
+			stmt.setInt(5, id); // just persist even if id remains -1, we'll do an update later.
 
 			connection.runUpdate(stmt);
 
 			ret = true;
-
+			connection.closeResultSet(rs);
 		} catch (SQLException e) {
 			LOG.error("Fail at persisting user information into user table", e);
-		}
-		finally
-		{
-			connection.closeResultSet(rs);
 		}
 
 		return ret;
@@ -149,7 +142,7 @@ public class UserMapping extends AbstractMapper {
 	 * @param userName
 	 * @return boolean true for credentials already existing, false o/w.
 	 */
-	private static boolean checkExistingCredentials(String emailAddress,
+	private boolean checkExistingCredentials(String emailAddress,
 			String userName) {
 		boolean ret = false;
 
@@ -166,7 +159,7 @@ public class UserMapping extends AbstractMapper {
 		{
 			// check existing email
 			try {
-				connection = getDatabaseConnection();
+				connection = this.getDatabaseConnection();
 				stmt = connection.setupPreparedStatement(
 						"select username from user where email = ?"
 						);
@@ -210,12 +203,9 @@ public class UserMapping extends AbstractMapper {
 					{
 						ret = true;
 					}
+					connection.closeResultSet(rs);
 				} catch (SQLException e) {
 					LOG.error("Fail to set up prepared stm for username checking", e);
-				}
-				finally
-				{
-					connection.closeResultSet(rs);
 				}
 			}
 		}
@@ -228,7 +218,7 @@ public class UserMapping extends AbstractMapper {
 	 * @param userName
 	 * @return true if matching, else o/w
 	 */
-	public static boolean isMatchingPassword(String pw, String userName) {
+	public boolean isMatchingPassword(String pw, String userName) {
 		boolean ret = false;
 
 		int pwId = getPasswordID(userName);
@@ -240,7 +230,7 @@ public class UserMapping extends AbstractMapper {
 			ResultSet rs = null;
 
 			try {
-				connection = getDatabaseConnection();
+				connection = this.getDatabaseConnection();
 				stmt = connection.setupPreparedStatement(
 						"select pw_hash, salt from password where id = ?"
 						);
@@ -256,26 +246,23 @@ public class UserMapping extends AbstractMapper {
 					Password pwdObject = new Password(pwHash, pwSalt);
 					ret = PasswordUtils.checkPassword(pw, pwdObject);
 				}
+				connection.closeResultSet(rs);
 			} catch (SQLException e) {
 				LOG.error("Could not retrieve password based on username", e);
-			}
-			finally
-			{
-				connection.closeResultSet(rs);
 			}
 
 		}
 		return ret;
 	}
 
-	private static int getPasswordID(String userName) {
+	private int getPasswordID(String userName) {
 		DatabaseConnection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		int pwID = -1;
 
 		try {
-			connection = getDatabaseConnection();
+			connection = this.getDatabaseConnection();
 			stmt = connection.setupPreparedStatement(
 					"select password_id from user where username = ?"
 					);
@@ -288,15 +275,54 @@ public class UserMapping extends AbstractMapper {
 			{
 				pwID = rs.getInt("password_id");
 			}
+			connection.closeResultSet(rs);
+			
 		} catch (SQLException e) {
 			LOG.error("Could not retrieve password based on username", e);
 		}
-		finally
-		{
-			connection.closeResultSet(rs);
-		}
 
 		return pwID;
+	}
+
+	/**
+	 * Method to get firstName of user
+	 * @param userName
+	 * @return
+	 */
+	public String getFirstName(String userName) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String firstName = "";
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+					"select first_name from user where username = ?"
+					);
+			stmt.setString(1, userName);
+
+			rs = connection.runQuery(stmt);
+
+
+			while(rs.next())
+			{
+				firstName = rs.getString("first_name");
+			}
+			connection.closeResultSet(rs);
+		} catch (SQLException e) {
+			LOG.error("Could not retrieve first_name based on username", e);
+		}
+
+		return firstName;
+	}
+	
+	public static void main(String[] args)
+	{
+		UserMapping um = new UserMapping();
+		System.out.println(um.getFirstName("test_nujabes"));
+		
+		System.out.println(um.isMatchingPassword("password", "test_nujabes"));
 	}
 
 }
