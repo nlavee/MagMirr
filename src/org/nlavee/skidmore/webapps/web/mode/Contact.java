@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class Contact extends HttpServlet{
+public class Contact extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */
@@ -83,6 +83,6 @@ public class Contact extends HttpServlet{
 	
 	private void getContact(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		req.getRequestDispatcher(VarNames.CONTACT_JSP).forward(req,resp);
+		req.getRequestDispatcher(CONTACT_JSP).forward(req,resp);
 	}
 }

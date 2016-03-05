@@ -1,12 +1,17 @@
 package org.nlavee.skidmore.webapps.database.interfaces.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.nlavee.skidmore.webapps.database.beans.Message;
 import org.nlavee.skidmore.webapps.database.beans.NewUser;
+import org.nlavee.skidmore.webapps.database.beans.Password;
 import org.nlavee.skidmore.webapps.database.beans.User;
+import org.nlavee.skidmore.webapps.database.dao.UserMapping;
 import org.nlavee.skidmore.webapps.database.interfaces.UserInterface;
+import org.nlavee.skidmore.webapps.web.utils.PasswordUtils;
 
 public class UserInterfaceImpl implements UserInterface{
 
@@ -25,7 +30,7 @@ public class UserInterfaceImpl implements UserInterface{
 	}
 
 	@Override
-	public User RegisterUser(NewUser user) {
+	public User RegisterUser(NewUser user) throws NoSuchAlgorithmException, NoSuchProviderException {
 		
 		String userName = user.getUserName();
 		String pwd = user.getPassword();
@@ -36,8 +41,8 @@ public class UserInterfaceImpl implements UserInterface{
 		/*
 		 * TODO Save the above to database
 		 */
-		
-		
+		Password pwdObject = PasswordUtils.generateSaltAndHash(pwd);
+		boolean success = UserMapping.savePassword(pwdObject);
 		
 		/*
 		 * Create the new User Bean

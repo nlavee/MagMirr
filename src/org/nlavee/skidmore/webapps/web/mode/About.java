@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class About extends HttpServlet {
+public class About extends HttpServlet implements VarNames {
 
 	/**
 	 * The internal version id of this class
@@ -84,6 +84,6 @@ public class About extends HttpServlet {
 	
 	private void getAbout(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		req.getRequestDispatcher(VarNames.ABOUT_JSP).forward(req,resp);
+		req.getRequestDispatcher(ABOUT_JSP).forward(req,resp);
 	}
 }

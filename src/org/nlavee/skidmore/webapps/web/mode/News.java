@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class News extends HttpServlet{
+public class News extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */
@@ -59,7 +59,7 @@ public class News extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("GET request sent to LOGIN servlet");
-		req.getRequestDispatcher(VarNames.MAIN_MODE).forward(req, resp);
+		req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 	}
 
 	/**

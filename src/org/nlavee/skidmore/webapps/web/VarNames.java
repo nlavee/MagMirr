@@ -1,6 +1,6 @@
 package org.nlavee.skidmore.webapps.web;
 
-public class VarNames {
+public interface VarNames {
 	
 	public final static String USER_PARAM_FIELD_NAME = "user_name";
 	public final static String PASSWORD_PARAM_FIELD_NAME = "password";

@@ -13,7 +13,7 @@ import org.nlavee.skidmore.webapps.database.beans.User;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class Login extends HttpServlet {
+public class Login extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */
@@ -102,22 +102,22 @@ public class Login extends HttpServlet {
 		LOGGER.info("Processing login request");
 		System.out.println("We get into login class");
 
-		if(req.getSession().getAttribute(VarNames.AUTHENTICATED_ATTRIBUTES_NAME) == null)
+		if(req.getSession().getAttribute(AUTHENTICATED_ATTRIBUTES_NAME) == null)
 		{
 			System.out.println("authentication is null");
-			String pathForwarded = VarNames.LOGIN_JSP; 
+			String pathForwarded = LOGIN_JSP; 
 
-			if( req.getParameter(VarNames.USER_PARAM_FIELD_NAME) != null && 
-					req.getParameter(VarNames.PASSWORD_PARAM_FIELD_NAME) != null)
+			if( req.getParameter(USER_PARAM_FIELD_NAME) != null && 
+					req.getParameter(PASSWORD_PARAM_FIELD_NAME) != null)
 			{
-				String userName = req.getParameter(VarNames.USER_PARAM_FIELD_NAME);
-				String password = req.getParameter(VarNames.PASSWORD_PARAM_FIELD_NAME);
+				String userName = req.getParameter(USER_PARAM_FIELD_NAME);
+				String password = req.getParameter(PASSWORD_PARAM_FIELD_NAME);
 
 				User userInvalidated = new User(userName, password);
 
 				boolean isExistingUser = authenticate(userInvalidated);
 
-				if(req.getParameter(VarNames.REMEMBER_PARAM_FIELD_NAME) != null)
+				if(req.getParameter(REMEMBER_PARAM_FIELD_NAME) != null)
 				{
 					// do something to remember, possibly put into session
 					
@@ -126,9 +126,9 @@ public class Login extends HttpServlet {
 				if( isExistingUser )
 				{
 					System.out.println("this is an existing user");
-					pathForwarded = VarNames.MAIN_JSP;
-					req.getSession().setAttribute(VarNames.USER_PARAM_FIELD_NAME, userName);
-					req.getSession().setAttribute(VarNames.AUTHENTICATED_ATTRIBUTES_NAME, true);
+					pathForwarded = MAIN_JSP;
+					req.getSession().setAttribute(USER_PARAM_FIELD_NAME, userName);
+					req.getSession().setAttribute(AUTHENTICATED_ATTRIBUTES_NAME, true);
 				}
 			}
 			else
@@ -141,7 +141,7 @@ public class Login extends HttpServlet {
 		else
 		{
 			System.out.println("authentication is not null");
-			req.getRequestDispatcher(VarNames.MAIN_JSP).forward(req, resp);
+			req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 		}
 
 	}

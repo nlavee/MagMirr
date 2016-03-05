@@ -5,81 +5,81 @@ drop database if exists magmirr;
 
 create database magmirr;
 
-#grant all on magmirr.* to magmirr identified by 'magmirr';
+grant all on magmirr.* to magmirr identified by 'magmirr';
 
 use magmirr;
 
-create table user {
+create table user (
 	id integer(10) auto_increment not null,
 	username varchar(50) unique not null,
 	first_name varchar(50),
 	last_name varchar(50),
 	password_id integer(10),
-	privilege_id integer(1),
-	mirror_user_id varchar(50),
 	uber_id varchar(50),
 	weather_id varchar(50),
-	primary key(id)
-};
+	primary key (id)
+);
 
-create table password {
+create table password (
 	id integer(10) auto_increment not null,
 	pw_hash varchar(100) not null,
 	salt varchar(100) not null,
-	primary key(id)
-}
+	primary key (id)
+);
 
-create table privilege {
+create table privilege (
 	id integer(10) auto_increment not null,
 	privilege_description varchar(50) not null,
 	privilege_name varchar(50) not null,
-	primary key(id)
-}
+	primary key (id)
+);
 
-create table message {
+create table message (
 	id integer(10) auto_increment not null,
 	user_id integer(10) not null,
 	timestamp date not null,
-	body varchar(100) not null
-	primary key(id)
-}
+	body varchar(100) not null,
+	primary key (id)
+);
 
-create table mirror_user {
+create table mirror (
+	id integer(10) auto_increment not null,
+	mirror_IP_address varchar(100) not null,
+	primary key (id)
+);
+
+create table mirror_user (
 	id integer(10) auto_increment not null,
 	mirror_id integer(10) not null,
 	user_id integer(10) not null,
-	primary key(id)
-}
+	privilege_id integer(10) not null,
+	primary key (id)
+);
 
-create table mirror {
-	id integer(10) auto_increment not null,
-	mirror_IP_address varchar(100) not null,
-	primary key(id)
-}
-
-create table news {
+create table news (
 	id integer(10) auto_increment not null,
 	section_name varchar(100) not null,
-	primary key(id)
-}
+	primary key (id)
+);
 
-create table news_user {
+create table news_user (
 	id integer(10) auto_increment not null,
 	news_id integer(10) not null,
 	user_id integer(10) not null,
-	primary_key(id)
-}
+	primary key (id)
+);
 
-create table uber {
+create table uber_API (
 	id integer(10) auto_increment not null,
-	app_related_data varchar(100) not null,
-	primary key(id)
-}
+	key_api varchar(200) not null,
+	secret_api varchar(200) not null,
+	primary key (id)
+);
 
-create table weather {
+create table weather (
 	id integer(10) auto_increment not null,
 	lat varchar(50) not null,
 	lon varchar(50) not null,
 	user_id integer(10) not null,
-	primary key(id)
-}
+	primary key (id)
+);

@@ -14,7 +14,7 @@ import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.UberAPIWrapper;
 
-public class UberOps extends HttpServlet{
+public class UberOps extends HttpServlet implements VarNames {
 
 
 	/**
@@ -64,7 +64,7 @@ public class UberOps extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("GET request sent to LOGIN servlet");
-		req.getRequestDispatcher(VarNames.MAIN_MODE).forward(req, resp);
+		req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 	}
 
 	/**

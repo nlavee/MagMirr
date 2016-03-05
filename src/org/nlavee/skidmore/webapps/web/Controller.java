@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-public class Controller extends HttpServlet {
+public class Controller extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */

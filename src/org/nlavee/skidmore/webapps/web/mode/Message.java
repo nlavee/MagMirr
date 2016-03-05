@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class Message extends HttpServlet{
+public class Message extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */
@@ -62,7 +62,7 @@ public class Message extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("GET request sent to Message servlet");
-		req.getRequestDispatcher(VarNames.LOGIN_JSP).forward(req, resp);
+		req.getRequestDispatcher(LOGIN_JSP).forward(req, resp);
 	}
 
 	/**
@@ -87,9 +87,9 @@ public class Message extends HttpServlet{
 	private void processMessage(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 
-		if(req.getParameter(VarNames.MAIN_TEXT_BOX) != null)
+		if(req.getParameter(MAIN_TEXT_BOX) != null)
 		{
-			String messageBody = StringUtils.trim(req.getParameter(VarNames.MAIN_TEXT_BOX));
+			String messageBody = StringUtils.trim(req.getParameter(MAIN_TEXT_BOX));
 			Date date = new Date();
 			/*
 			 * Forward this messageBody to database
@@ -130,6 +130,6 @@ public class Message extends HttpServlet{
 		}
 
 		// go back to main screen
-		req.getRequestDispatcher(VarNames.MAIN_MODE).forward(req, resp);
+		req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 	}
 }

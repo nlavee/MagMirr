@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.auth.Login;
 
-public class Status extends HttpServlet{
+public class Status extends HttpServlet implements VarNames {
 
 	/**
 	 * The internal version id of this class
@@ -86,7 +86,7 @@ public class Status extends HttpServlet{
 	private void getStatus(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		
-		req.getRequestDispatcher(VarNames.STATUS_JSP).forward(req,resp);
+		req.getRequestDispatcher(STATUS_JSP).forward(req,resp);
 		
 	}
 

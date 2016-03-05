@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.beans.User;
 import org.nlavee.skidmore.webapps.web.VarNames;
 
-public class Logout extends HttpServlet {
+public class Logout extends HttpServlet implements VarNames {
 	/**
 	 * The internal version id of this class
 	 */
@@ -105,7 +105,7 @@ public class Logout extends HttpServlet {
 		req.getSession().invalidate();
 		
 		// do other things for log in
-		req.getRequestDispatcher(VarNames.LOGIN_JSP).forward(req,resp);
+		req.getRequestDispatcher(LOGIN_JSP).forward(req,resp);
 	}
 
 	private void saveInformation(HttpServletRequest req) {

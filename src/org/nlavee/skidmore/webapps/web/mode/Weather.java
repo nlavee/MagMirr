@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.WeatherAPIWrapper;
 
-public class Weather extends HttpServlet{
+public class Weather extends HttpServlet implements VarNames {
 
 	/**
 	 * The internal version id of this class
@@ -63,7 +63,7 @@ public class Weather extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("GET request sent to LOGIN servlet");
-		req.getRequestDispatcher(VarNames.MAIN_MODE).forward(req, resp);
+		req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 	}
 
 	/**
@@ -88,9 +88,9 @@ public class Weather extends HttpServlet{
 	private void getWeather(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 
-		if(req.getParameter(VarNames.MAIN_ZIPCODE) != null)
+		if(req.getParameter(MAIN_ZIPCODE) != null)
 		{
-			String zipcode = (String) req.getParameter(VarNames.MAIN_ZIPCODE);
+			String zipcode = (String) req.getParameter(MAIN_ZIPCODE);
 
 			try
 			{
@@ -115,9 +115,9 @@ public class Weather extends HttpServlet{
 				 */
 
 				//TODO for now, this goes back to main page without any update.
-				req.getSession().setAttribute(VarNames.ZIPCODE_WEATHER, zipcode);
-				req.getSession().setAttribute(VarNames.TEMP_WEATHER, temp);
-				req.getRequestDispatcher(VarNames.MAIN_MODE).forward(req, resp);
+				req.getSession().setAttribute(ZIPCODE_WEATHER, zipcode);
+				req.getSession().setAttribute(TEMP_WEATHER, temp);
+				req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 			}
 			catch( InputMismatchException e)
 			{
