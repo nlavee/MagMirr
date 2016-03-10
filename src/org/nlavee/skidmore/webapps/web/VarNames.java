@@ -17,6 +17,7 @@ public interface VarNames {
 	public final static String LOGOUT_MODE = "logout";
 	public final static String MAIN_TEXT_BOX ="message_box";
 	public final static String MAIN_ZIPCODE = "zipcode";
+	public final static String MAIN_NEWS_SELECTION = "news_selection";
 	public static final String ZIPCODE_WEATHER = "zipcode_weather";
 	public static final String TEMP_WEATHER = "temp_weather";
 	public static final String LOGIN_UNSUCCESSFUL = "login_unsuccessful";
@@ -42,10 +43,11 @@ public interface VarNames {
 	public static final String MAGAZINE_SECTION = "magazine";
 	public static final String REAL_ESTATE_SECTION = "real estate";
 	public static final String[] NEWS_SECTIONS = { 
-			VarNames.HOME_SECTION, VarNames.WORLD_SECTION, VarNames.NATIONAL_SECTION, VarNames.POLITICS_SECTION, VarNames.NY_REGION_SECTION, VarNames.BUSINESS_SECTION,
-			VarNames.OPINION_SECTION, VarNames.TECHNOLOGY_SECTION, VarNames.SCIENCE_SECTION, VarNames.HEALTH_SECTION, VarNames.SPORTS_SECTION, VarNames.ARTS_SECTION, 
-			VarNames.FASHION_SECTION, VarNames.DINING_SECTION, VarNames.TRAVEL_SECTION, VarNames.MAGAZINE_SECTION, VarNames.REAL_ESTATE_SECTION
+			HOME_SECTION, WORLD_SECTION, NATIONAL_SECTION, POLITICS_SECTION, NY_REGION_SECTION, BUSINESS_SECTION,
+			OPINION_SECTION, TECHNOLOGY_SECTION, SCIENCE_SECTION, HEALTH_SECTION, SPORTS_SECTION, ARTS_SECTION, 
+			FASHION_SECTION, DINING_SECTION, TRAVEL_SECTION, MAGAZINE_SECTION, REAL_ESTATE_SECTION
 			};
+
 	/*
 	 * JSP path to login.jsp
 	 */

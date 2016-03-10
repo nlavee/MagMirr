@@ -31,7 +31,7 @@
 	{
 		//nothing
 	}
-	
+	String newsSelection = VarNames.MAIN_NEWS_SELECTION;
 	
 %>
 
@@ -109,17 +109,19 @@
 		<form action="news" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>News Selection Tool</legend>
-				Your Selection of Topics: <br /> <select multiple>
+				Your Selection of Topics: <br /> 
+				<select name=<%=newsSelection%> multiple>
 				
 				<%
 					for(String attr: sectionValues)
 					{
 						%>
-							<option name="<%=attr.replaceAll("\\s+","")%>" value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
+							<option value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
 						<%
 					}
 				%>
-				</select><br /> <input type="submit" id="submit" class="input"
+				</select><br />
+				<input type="submit" id="submit" class="input"
 					value="Select Interested Topics" />
 			</fieldset>
 		</form>

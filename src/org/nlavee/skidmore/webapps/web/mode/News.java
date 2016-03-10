@@ -2,6 +2,8 @@ package org.nlavee.skidmore.webapps.web.mode;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,11 +31,11 @@ public class News extends HttpServlet implements VarNames {
 	 * Logger Instance
 	 */
 	private static Logger LOGGER = Logger.getLogger(News.class);
- 
+
 	public News(){
-		
+
 	}
-	
+
 	/**
 	 * Called by container when servlet instance is created. This method sets-up
 	 * the logger and DB connection properties.
@@ -44,7 +46,7 @@ public class News extends HttpServlet implements VarNames {
 	public void init(ServletConfig config) {
 		LOGGER.warn("Servlet init.  Version: " + VERSION);
 	}
-	
+
 	/**
 	 * This method just redirect get request back to the
 	 * initial form now
@@ -90,21 +92,30 @@ public class News extends HttpServlet implements VarNames {
 	 * @throws IOException
 	 */
 	private void getNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		String fwdPath = ERROR_JSP;
-		ArrayList<String> sectionsRequested = new ArrayList<>();
-		for(String sectionValue : VarNames.NEWS_SECTIONS)
+		String[] sectionSelected = null;
+
+		if(req.getParameterValues(MAIN_NEWS_SELECTION) != null)
 		{
-			if(req.getParameter(sectionValue) != null)
+			sectionSelected = req.getParameterValues(MAIN_NEWS_SELECTION);
+
+			for(String section : sectionSelected)
 			{
-				String sectionSelected = req.getParameter(sectionValue);
-				sectionsRequested.add(sectionSelected.trim());
-				LOGGER.info("Requested section: " + sectionSelected);
+				LOGGER.info("Requested section: " + section);
 			}
 		}
-		
-		ArrayList<NewsObj> returnedTop5s = getNewsSection(sectionsRequested);
-		
+
+		ArrayList<NewsObj> returnedTop5s = null;
+		if(sectionSelected.length > 0)
+		{
+			returnedTop5s = getNewsSection(sectionSelected);
+		}
+		else
+		{
+			LOGGER.info("Did not request any news section.");
+		}
+
 		if(returnedTop5s != null)
 		{
 			// forward this to the other client
@@ -125,7 +136,7 @@ public class News extends HttpServlet implements VarNames {
 			fwdPath = ERROR_JSP;
 		}
 		req.getRequestDispatcher(fwdPath).forward(req, resp);
-		
+
 	}
 
 	/**
@@ -133,12 +144,11 @@ public class News extends HttpServlet implements VarNames {
 	 * @param sectionsRequested
 	 * @return boolean true if the process was successful, else returns false
 	 */
-	private ArrayList<NewsObj> getNewsSection(ArrayList<String> sectionsRequested) {
+	private ArrayList<NewsObj> getNewsSection(String[] sectionsRequested) {
 		NewsAPIWrapper newsAPI = new NewsAPIWrapper();
-		
-		ArrayList<NewsObj> returnedList = newsAPI.chooseSections(sectionsRequested.toArray(new String[0]));
-		
-		
+
+		ArrayList<NewsObj> returnedList = newsAPI.chooseSections(sectionsRequested);
+
 		if(returnedList == null) return null;
 		else return returnedList;
 	}
