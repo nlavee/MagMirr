@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.NewsAPIWrapper;
+import org.nlavee.skidmore.webapps.web.model.NewsObj;
 
 public class News extends HttpServlet implements VarNames {
 	/**
@@ -48,7 +49,6 @@ public class News extends HttpServlet implements VarNames {
 	 * This method just redirect get request back to the
 	 * initial form now
 	 *
-	 * @see #controller
 	 *
 	 * @param req
 	 *            The request
@@ -67,7 +67,6 @@ public class News extends HttpServlet implements VarNames {
 	/**
 	 * This method calls the controller method
 	 *
-	 * @see #controller
 	 *
 	 * @param req
 	 *            The request
@@ -104,13 +103,27 @@ public class News extends HttpServlet implements VarNames {
 			}
 		}
 		
-		boolean success = getNewsSection(sectionsRequested);
+		ArrayList<NewsObj> returnedTop5s = getNewsSection(sectionsRequested);
 		
-		if(success)
+		if(returnedTop5s != null)
 		{
+			// forward this to the other client
+			// do something with returnedTop5s.
+			for(int i = 0 ; i < returnedTop5s.size(); i += 5)
+			{
+				NewsObj newsArticle = returnedTop5s.get(i);
+				String varNames = ("top5-" + i);
+				req.setAttribute(varNames, newsArticle.getTitle());
+				req.setAttribute("i", i);
+			}
 			fwdPath = MAIN_JSP;
 		}
-		
+		else 
+		{
+			// gives errors
+			LOGGER.error("Failed to get top 5s. Returned null");
+			fwdPath = ERROR_JSP;
+		}
 		req.getRequestDispatcher(fwdPath).forward(req, resp);
 		
 	}
@@ -120,12 +133,13 @@ public class News extends HttpServlet implements VarNames {
 	 * @param sectionsRequested
 	 * @return boolean true if the process was successful, else returns false
 	 */
-	private boolean getNewsSection(ArrayList<String> sectionsRequested) {
+	private ArrayList<NewsObj> getNewsSection(ArrayList<String> sectionsRequested) {
 		NewsAPIWrapper newsAPI = new NewsAPIWrapper();
-		boolean success = newsAPI.chooseSections((String[]) sectionsRequested.toArray());
+		
+		ArrayList<NewsObj> returnedList = newsAPI.chooseSections(sectionsRequested.toArray(new String[0]));
 		
 		
-		if(success) return true;
-		else return false;
+		if(returnedList == null) return null;
+		else return returnedList;
 	}
 }

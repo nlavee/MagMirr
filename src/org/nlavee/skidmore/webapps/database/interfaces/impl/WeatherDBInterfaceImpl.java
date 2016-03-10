@@ -10,7 +10,7 @@ public class WeatherDBInterfaceImpl implements WeatherDBInterface{
 		
 		UserMapping um = new UserMapping();
 		um.saveWeatherLocation(zipcode, username);
-		return false;
+		return true;
 	}
 
 }

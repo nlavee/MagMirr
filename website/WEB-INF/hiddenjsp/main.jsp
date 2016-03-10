@@ -23,6 +23,15 @@
 	Date date = new Date();
 	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd, MMMMM, yyyy hh:mm aaa");
 	final String[] sectionValues = VarNames.NEWS_SECTIONS;
+	int i = 0;
+	try{
+		i = Integer.parseInt((String) request.getAttribute("i"));
+	}
+	catch(NumberFormatException e)
+	{
+		//nothing
+	}
+	
 	
 %>
 
@@ -114,6 +123,18 @@
 					value="Select Interested Topics" />
 			</fieldset>
 		</form>
+		<div id = "auth" class="auth">
+			<%
+				for(int count = 0 ; count < i; count ++)
+				{
+					String varNames = "top5-" + count;
+					String title = (String) request.getAttribute(varNames);
+					%>
+						<p><%=title%></p>
+					<%
+				}
+			%>
+		</div>
 	</div>
 
 	<div id="uber_authentication" class="mode_ops">
