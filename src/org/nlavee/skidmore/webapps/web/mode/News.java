@@ -1,6 +1,7 @@
 package org.nlavee.skidmore.webapps.web.mode;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.NewsAPIWrapper;
 
 public class News extends HttpServlet implements VarNames {
 	/**
@@ -81,8 +83,49 @@ public class News extends HttpServlet implements VarNames {
 		getNews(req, resp);
 	}
 
-	private void getNews(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	/**
+	 * Method that processes getting news and send a response to the user.
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void getNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		String fwdPath = ERROR_JSP;
+		ArrayList<String> sectionsRequested = new ArrayList<>();
+		for(String sectionValue : VarNames.NEWS_SECTIONS)
+		{
+			if(req.getParameter(sectionValue) != null)
+			{
+				String sectionSelected = req.getParameter(sectionValue);
+				sectionsRequested.add(sectionSelected.trim());
+				LOGGER.info("Requested section: " + sectionSelected);
+			}
+		}
+		
+		boolean success = getNewsSection(sectionsRequested);
+		
+		if(success)
+		{
+			fwdPath = MAIN_JSP;
+		}
+		
+		req.getRequestDispatcher(fwdPath).forward(req, resp);
+		
+	}
+
+	/**
+	 * Method that requires the use of API.
+	 * @param sectionsRequested
+	 * @return boolean true if the process was successful, else returns false
+	 */
+	private boolean getNewsSection(ArrayList<String> sectionsRequested) {
+		NewsAPIWrapper newsAPI = new NewsAPIWrapper();
+		boolean success = newsAPI.chooseSections((String[]) sectionsRequested.toArray());
+		
+		
+		if(success) return true;
+		else return false;
 	}
 }

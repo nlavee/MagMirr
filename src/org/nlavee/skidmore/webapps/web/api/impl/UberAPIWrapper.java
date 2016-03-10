@@ -1,5 +1,6 @@
 package org.nlavee.skidmore.webapps.web.api.impl;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.api.UberInterface;
@@ -13,6 +14,11 @@ import com.uber.sdk.rides.client.UberRidesServices;
 
 public class UberAPIWrapper implements UberInterface{
 
+	/**
+	 * Logger Instance
+	 */
+	private static Logger LOGGER = Logger.getLogger(UberAPIWrapper.class);
+	
 	private UberRidesSyncService uberRidesService;
 	
 	@Override

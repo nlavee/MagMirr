@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.routines.IntegerValidator;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.nlavee.skidmore.webapps.database.interfaces.impl.WeatherDBInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.WeatherAPIWrapper;
 
@@ -50,8 +52,6 @@ public class Weather extends HttpServlet implements VarNames {
 	 * This method just redirect get request back to the
 	 * initial form now
 	 *
-	 * @see #controller
-	 *
 	 * @param req
 	 *            The request
 	 * @param resp
@@ -69,8 +69,6 @@ public class Weather extends HttpServlet implements VarNames {
 	/**
 	 * This method calls the controller method
 	 *
-	 * @see #controller
-	 *
 	 * @param req
 	 *            The request
 	 * @param resp
@@ -85,26 +83,25 @@ public class Weather extends HttpServlet implements VarNames {
 		getWeather(req, resp);
 	}
 
+	/**
+	 * Method that actually handles the weather request. Focus on parsing value entered from user
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void getWeather(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 
 		if(req.getParameter(MAIN_ZIPCODE) != null && !req.getParameter(MAIN_ZIPCODE).equals(""))
 		{
-			String zipcode = (String) req.getParameter(MAIN_ZIPCODE);
-
-			try
+			Integer zipcodeInt = IntegerValidator.getInstance().validate(req.getParameter(MAIN_ZIPCODE));
+			
+			if(zipcodeInt != null)
 			{
-				Integer zipcodeInt = Integer.parseInt(zipcode.trim());
+				String userName = (String) req.getSession().getAttribute(USER_PARAM_FIELD_NAME);
+				String temp = processWeatherRequest(zipcodeInt, userName);
 				
-				/*
-				 * Process with Weather API
-				 */
-				WeatherAPIWrapper weatherAPI = new WeatherAPIWrapper();
-				JSONObject currWeather = weatherAPI.getWeather(zipcodeInt);
-
-				JSONObject mainJson = (JSONObject) currWeather.get("main");
-				String temp = String.valueOf(Math.round(Float.parseFloat(mainJson.get("temp").toString())));
-
 				/*
 				 * Forward currWeather to the other client
 				 */
@@ -115,11 +112,11 @@ public class Weather extends HttpServlet implements VarNames {
 				 */
 
 				//TODO for now, this goes back to main page without any update.
-				req.getSession().setAttribute(ZIPCODE_WEATHER, zipcode);
+				req.getSession().setAttribute(ZIPCODE_WEATHER, zipcodeInt);
 				req.getSession().setAttribute(TEMP_WEATHER, temp);
 				req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 			}
-			catch( InputMismatchException e)
+			else
 			{
 				LOGGER.error("Input for zipcode was not parseable for int");
 			}
@@ -132,6 +129,31 @@ public class Weather extends HttpServlet implements VarNames {
 			req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 		}
 
+	}
+
+	/**
+	 * Method that process saving to database and getting the initial data for returning in resp
+	 * @param zipcodeInt
+	 * @param userName
+	 * @return String which should be the current temperature in Celcius.
+	 */
+	private String processWeatherRequest(Integer zipcodeInt, String userName) {
+		/*
+		 * Save to db
+		 */
+		WeatherDBInterfaceImpl weatherDBOps = new WeatherDBInterfaceImpl();
+		weatherDBOps.saveZipcode(zipcodeInt, userName);
+		
+		/*
+		 * Process with Weather API
+		 */
+		WeatherAPIWrapper weatherAPI = new WeatherAPIWrapper();
+		JSONObject currWeather = weatherAPI.getWeather(zipcodeInt);
+
+		JSONObject mainJson = (JSONObject) currWeather.get("main");
+		String temp = String.valueOf(Math.round(Float.parseFloat(mainJson.get("temp").toString())));
+		
+		return temp;
 	}
 
 

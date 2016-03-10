@@ -79,8 +79,7 @@ create table uber_API (
 
 create table weather (
 	id integer(10) auto_increment not null,
-	lat varchar(50) not null,
-	lon varchar(50) not null,
+	zipcode integer(10) not null,
 	user_id integer(10) not null,
 	primary key (id)
 );

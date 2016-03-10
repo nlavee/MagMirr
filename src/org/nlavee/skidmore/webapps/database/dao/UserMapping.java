@@ -99,8 +99,6 @@ public class UserMapping extends AbstractMapper {
 			{
 				id = rs.getInt(1);
 			}
-			rs.close();
-			stmt.close();
 		} catch (SQLException e) {
 			LOG.error("Fail at persisting password for new user", e);
 		}
@@ -127,6 +125,8 @@ public class UserMapping extends AbstractMapper {
 			connection.runUpdate(stmt);
 
 			ret = true;
+			rs.close();
+			stmt.close();
 			connection.closeResultSet(rs);
 		} catch (SQLException e) {
 			LOG.error("Fail at persisting user information into user table", e);
@@ -317,11 +317,36 @@ public class UserMapping extends AbstractMapper {
 		return firstName;
 	}
 	
+	/**
+	 * Method that saves the zipcode that user wants to use for retrieving weather data
+	 * @param zipcode
+	 * @param userName
+	 * @return boolean success if operation is successful, otherwise, returns false.
+	 */
+	public void saveWeatherLocation(Integer zipcode, String userName)
+	{
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+					"update weather set zipcode = ? where user_id = ?"
+					);
+			stmt.setInt(1, zipcode);
+			stmt.setString(2, userName);
+
+			connection.runUpdate(stmt);
+		} catch (SQLException e) {
+			LOG.error("Could not update weather location ", e);
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		UserMapping um = new UserMapping();
 		System.out.println(um.getFirstName("test_nujabes"));
-		
 		System.out.println(um.isMatchingPassword("password", "test_nujabes"));
 	}
 

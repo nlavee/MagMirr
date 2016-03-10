@@ -7,11 +7,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.nlavee.skidmore.webapps.web.APIKEYS;
 import org.nlavee.skidmore.webapps.web.api.WeatherInterface;
 
-public class WeatherAPIWrapper implements WeatherInterface{
+public class WeatherAPIWrapper implements WeatherInterface, APIKEYS{
 
+	/**
+	 * Logger Instance
+	 */
+	private static Logger LOGGER = Logger.getLogger(WeatherAPIWrapper.class);
+	
+	
 	@Override
 	public JSONObject getWeather(Integer zipcode) {
 
@@ -28,7 +36,7 @@ public class WeatherAPIWrapper implements WeatherInterface{
 			apiRequestURL.append(urlLocation);
 			apiRequestURL.append(zipcode.toString());
 			apiRequestURL.append(",us&APPID=");
-			apiRequestURL.append("4f036b93c98e481dfbddadf07602900f"); // need to revise how this got read.
+			apiRequestURL.append(WEATHER_API_KEY); // need to revise how this got read.
 			apiRequestURL.append("&units=metric");
 			
 			URL url = new URL(apiRequestURL.toString());

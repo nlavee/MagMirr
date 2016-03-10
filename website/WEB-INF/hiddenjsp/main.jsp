@@ -1,5 +1,6 @@
 <!-- main -->
 
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -21,6 +22,8 @@
 	String firstName = VarNames.FIRST_NAME_PARAM_FIELD_NAME;
 	Date date = new Date();
 	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd, MMMMM, yyyy hh:mm aaa");
+	final String[] sectionValues = VarNames.NEWS_SECTIONS;
+	
 %>
 
 <html>
@@ -98,10 +101,15 @@
 			<fieldset>
 				<legend>News Selection Tool</legend>
 				Your Selection of Topics: <br /> <select multiple>
-					<option value="technology">Technology</option>
-					<option value="sports">Sports</option>
-					<option value="pol">Politics</option>
-					<option value="econs">Economics</option>
+				
+				<%
+					for(String attr: sectionValues)
+					{
+						%>
+							<option name="<%=attr.replaceAll("\\s+","")%>" value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
+						<%
+					}
+				%>
 				</select><br /> <input type="submit" id="submit" class="input"
 					value="Select Interested Topics" />
 			</fieldset>
