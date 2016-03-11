@@ -34,6 +34,10 @@ public class NewsAPIWrapper implements NewsInterface, VarNames, APIKEYS{
 		{
 			LOGGER.info("Received the following requested section: " + section);
 			ArrayList<NewsObj> returnedEachSection = processOneSection(section);
+			for(NewsObj newsObj : returnedEachSection)
+			{
+				returnedArticles.add(newsObj);
+			}
 		}
 		if(returnedArticles.size() == 0) return null; 
 		return returnedArticles;
@@ -41,12 +45,12 @@ public class NewsAPIWrapper implements NewsInterface, VarNames, APIKEYS{
 
 	/**
 	 * This method makes an API request for one section of news.
-	 * @param section
+	 * @param section that needs to parsed
 	 * @return 5 articles that appears first on the returned list from the API.
 	 */
 	private ArrayList<NewsObj> processOneSection(String section) {
 		StringBuilder res = new StringBuilder();
-		
+
 		String urlBase = "http://api.nytimes.com/svc/topstories/v1/";
 		StringBuilder apiRequestURL = new StringBuilder();
 		apiRequestURL.append(urlBase);
@@ -86,14 +90,14 @@ public class NewsAPIWrapper implements NewsInterface, VarNames, APIKEYS{
 
 		// convert string to JSONObject
 		JSONObject jsonObj = new JSONObject(res.toString());
-		
+
 		ArrayList<NewsObj> parsedResult = null;
 		try {
 			parsedResult = parseSection(jsonObj);
 		} catch (ParseException e) {
 			LOGGER.error("Unable to parse Published Date", e);
 		}
-		
+
 		if(parsedResult != null) return parsedResult;
 		else return new ArrayList<NewsObj>();
 	}
@@ -105,44 +109,63 @@ public class NewsAPIWrapper implements NewsInterface, VarNames, APIKEYS{
 	 * @throws ParseException 
 	 */
 	private ArrayList<NewsObj> parseSection(JSONObject jsonObj) throws ParseException {
-		
-		ArrayList<NewsObj> res = new ArrayList<>();
-		
-		int numResults = jsonObj.getInt("num_results");
-		
-		if(numResults > 0)
+
+		ArrayList<NewsObj> res = null;
+
+		if(!jsonObj.isNull("results"))
 		{
+			LOGGER.info("Results gotten from News API is not empty");
 			JSONArray resultArray = jsonObj.getJSONArray("results");
-			
-			for(int i = 0 ; i < 5 ; i++)
+			res = new ArrayList<NewsObj>();
+
+			for(int i = 0 ; i < 5 || i>= resultArray.length() ; i++)
 			{
 				JSONObject oneEntry = resultArray.getJSONObject(i);
+				LOGGER.info(oneEntry);
+
+				//parsing for different object attributes
 				String section = oneEntry.getString("section");
 				String title = oneEntry.getString("title");
 				String newsAbstract = oneEntry.getString("abstract");
 				String url = oneEntry.getString("url");
 				String dateString = oneEntry.getString("published_date");
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-				Date dateFormatted = df.parse(dateString);
-				JSONArray tagsList = oneEntry.getJSONArray("des_facet");
-				ArrayList<String> tags = new ArrayList<>();
-				for(int j = 0 ; j < tagsList.length(); j++)
+				LOGGER.info(oneEntry);
+
+				// Sometimes, this key doesn't exist as an array
+				JSONArray multimedia = null;
+				String urlMultimedia= new String();
+				try
 				{
-					String tag = tagsList.getString(j);
-					tags.add(tag);
+					multimedia = oneEntry.getJSONArray("multimedia");
+					JSONObject standardMultimediaObject = multimedia.getJSONObject(0);
+					urlMultimedia = standardMultimediaObject.getString("url");
 				}
-				String[] tagsListArray = (String[]) tags.toArray();
-				JSONArray multimedia = oneEntry.getJSONArray("multimedia");
-				JSONObject standardMultimediaObject = multimedia.getJSONObject(0);
-				String urlMultimedia = standardMultimediaObject.getString("url");
-				
-				NewsObj newNews = new NewsObj(title, newsAbstract, url, dateFormatted, urlMultimedia, section, tagsListArray);
+				catch(Throwable e)
+				{
+					LOGGER.error("Key multimedia didn't work", e);
+				}
+
+				// Sometimes, this key doesn't exist as an array
+				ArrayList<String> tags = new ArrayList<>();
+				try{
+					JSONArray tagsList = oneEntry.getJSONArray("des_facet");
+					for(int j = 0 ; j < tagsList.length(); j++)
+					{
+						String tag = tagsList.getString(j);
+						tags.add(tag);
+					}
+				}
+				catch(Throwable e)
+				{
+					LOGGER.error("Key des_facet didn't work.", e);
+				}
+
+				NewsObj newNews = new NewsObj(title, newsAbstract, url, dateString, urlMultimedia, section, tags);
+				LOGGER.info(newNews);
 				res.add(newNews);
 			}
-			
-			return res;
 		}
-		else return null;
+		return res;
 	}
 
 

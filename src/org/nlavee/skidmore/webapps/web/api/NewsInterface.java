@@ -8,7 +8,7 @@ public interface NewsInterface {
 
 	/**
 	 * Method that returns top news based on the section selected
-	 * @param sections
+	 * @param sections that are chosen by the users
 	 * @return an arraylist of NewsObj.
 	 */
 	public ArrayList<NewsObj> chooseSections(String[] sections);

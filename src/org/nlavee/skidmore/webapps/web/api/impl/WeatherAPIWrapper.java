@@ -53,10 +53,10 @@ public class WeatherAPIWrapper implements WeatherInterface, APIKEYS{
 					(conn.getInputStream())));
 
 			String output;
-			System.out.println("Output from Weather API .... \n");
+			LOGGER.info("Output from Weather API .... \n");
 			while ((output = br.readLine()) != null) {
 				res.append(output);
-				System.out.println(output);
+				LOGGER.info(output);
 			}
 
 			conn.disconnect();

@@ -1,5 +1,6 @@
 package org.nlavee.skidmore.webapps.web.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -8,21 +9,21 @@ public class NewsObj {
 	public String title;
 	public String NewsAbstract;
 	public String url;
-	public Date publishedTime;
+	public String publishedTime;
 	public String urlMultimedia;
 	public String section;
-	public String[] tags;
+	public ArrayList<String> tags;
 	
 	public NewsObj(String title, String newsAbstract, String url,
-			Date publishedTime, String urlMultimedia, String section,
-			String[] tags) {
+			String dateString, String urlMultimedia, String section,
+			ArrayList<String> tags2) {
 		this.title = title;
 		this.NewsAbstract = newsAbstract;
 		this.url = url;
-		this.publishedTime = publishedTime;
+		this.publishedTime = dateString;
 		this.urlMultimedia = urlMultimedia;
 		this.section = section;
-		this.tags = tags;
+		this.tags = tags2;
 	}
 
 	public NewsObj() {
@@ -53,11 +54,11 @@ public class NewsObj {
 		this.url = url;
 	}
 
-	public Date getPublishedTime() {
+	public String getPublishedTime() {
 		return publishedTime;
 	}
 
-	public void setPublishedTime(Date publishedTime) {
+	public void setPublishedTime(String publishedTime) {
 		this.publishedTime = publishedTime;
 	}
 
@@ -77,11 +78,11 @@ public class NewsObj {
 		this.section = section;
 	}
 
-	public String[] getTags() {
+	public ArrayList<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(String[] tags) {
+	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
 
@@ -90,7 +91,7 @@ public class NewsObj {
 		return "News [title=" + title + ", NewsAbstract=" + NewsAbstract
 				+ ", url=" + url + ", publishedTime=" + publishedTime
 				+ ", urlMultimedia=" + urlMultimedia + ", section=" + section
-				+ ", tags=" + Arrays.toString(tags) + "]";
+				+ ", tags=" + tags + "]";
 	}
 	
 	

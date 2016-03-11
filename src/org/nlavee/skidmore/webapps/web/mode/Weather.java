@@ -112,8 +112,8 @@ public class Weather extends HttpServlet implements VarNames {
 				 */
 
 				//TODO for now, this goes back to main page without any update.
-				req.getSession().setAttribute(ZIPCODE_WEATHER, zipcodeInt);
-				req.getSession().setAttribute(TEMP_WEATHER, temp);
+				req.setAttribute(ZIPCODE_WEATHER, zipcodeInt);
+				req.setAttribute(TEMP_WEATHER, temp);
 				req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 			}
 			else

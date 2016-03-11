@@ -98,7 +98,6 @@ public class Logout extends HttpServlet implements VarNames {
 	private void logout(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("Processing logout request");
-		System.out.println("Processing logout request");
 		
 		saveInformation(req);
 		

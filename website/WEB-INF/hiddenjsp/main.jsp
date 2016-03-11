@@ -1,5 +1,5 @@
 <!-- main -->
-
+<%@page pageEncoding="UTF-8" %>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%@page import="java.util.Date"%>
@@ -68,7 +68,7 @@
 		<h3 class="instruction">
 			Hello
 			<%=(request.getSession().getAttribute(firstName) == null ? "there." : ("<u>" + request.getSession().getAttribute(firstName)+ ". </u>"))%></h3>
-			<h4><%=dateFormatter.format(date)%></h4>
+		<h4><%=dateFormatter.format(date)%></h4>
 		<hr />
 	</div>
 
@@ -88,13 +88,18 @@
 				<legend>Weather Display Tool</legend>
 				Your Zipcode: <input type="number" name=<%=zipcode%> /> <input
 					type="submit" id="submit" class="input" value="Display Weather" />
-					<br/>
-					<%
-						if(request.getSession().getAttribute(currentZipCode) != null)
+				<br />
+				<%
+						if(request.getAttribute(currentZipCode) != null)
 						{
 							%>
-							<p>Current weather is displayed for zipcode: <%=request.getSession().getAttribute(currentZipCode)%>. Current Temperature is <%=request.getSession().getAttribute(currentTemp) %>&#x2103;.</p>
-							<%
+				<p>
+					Current weather is displayed for zipcode:
+					<%=request.getAttribute(currentZipCode)%>. Current
+					Temperature is
+					<%=request.getAttribute(currentTemp) %>&#x2103;.
+				</p>
+				<%
 						}
 						else
 						{
@@ -109,34 +114,33 @@
 		<form action="news" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>News Selection Tool</legend>
-				Your Selection of Topics: <br /> 
-				<select name=<%=newsSelection%> multiple>
-				
-				<%
+				Your Selection of Topics: <br /> <select name=<%=newsSelection%>
+					multiple>
+
+					<%
 					for(String attr: sectionValues)
 					{
 						%>
-							<option value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
-						<%
+					<option value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
+					<%
 					}
 				%>
-				</select><br />
-				<input type="submit" id="submit" class="input"
+				</select><br /> <input type="submit" id="submit" class="input"
 					value="Select Interested Topics" />
-			</fieldset>
 		</form>
-		<div id = "auth" class="auth">
+		<div id="news_choosing" class="mode_ops">
 			<%
 				for(int count = 0 ; count < i; count ++)
 				{
 					String varNames = "top5-" + count;
 					String title = (String) request.getAttribute(varNames);
 					%>
-						<p><%=title%></p>
-					<%
+			<p><%=title%></p>
+			<%
 				}
 			%>
 		</div>
+		</fieldset>
 	</div>
 
 	<div id="uber_authentication" class="mode_ops">

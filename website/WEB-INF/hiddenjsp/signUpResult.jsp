@@ -1,5 +1,5 @@
 <!-- login -->
-
+<%@page pageEncoding="UTF-8" %>
 <%@page import="org.nlavee.skidmore.webapps.web.auth.Login"%>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%

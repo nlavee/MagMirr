@@ -1,4 +1,5 @@
 <!--  Contact  -->
+<%@page pageEncoding="UTF-8" %>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%
 	String authenticated = VarNames.AUTHENTICATED_ATTRIBUTES_NAME;

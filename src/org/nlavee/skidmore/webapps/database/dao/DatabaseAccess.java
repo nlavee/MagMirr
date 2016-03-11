@@ -1,6 +1,6 @@
 package org.nlavee.skidmore.webapps.database.dao;
 
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 import org.nlavee.skidmore.webapps.database.backends.DatabaseConnection;
 import org.nlavee.skidmore.webapps.database.interfaces.ConfigurationProperty;
 import org.nlavee.skidmore.webapps.web.config.MagMirrProperties;
@@ -8,11 +8,10 @@ import org.nlavee.skidmore.webapps.web.config.MagMirrProperties;
 
 public class DatabaseAccess {
 	/**
-	 * The logger
+	 * The LOG.infoger
 	 */
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger
-		.getLogger(DatabaseAccess.class);
+	private static Logger LOGGER = Logger.getLogger(DatabaseAccess.class);
 
 	/**
 	 * The database driver
@@ -76,10 +75,10 @@ public class DatabaseAccess {
 	 */
 	public DatabaseConnection getConnection()
 	{
-		System.out.println(driver);
-		System.out.println(connectionUrl);
-		System.out.println(userId);
-		System.out.println(password);
+		LOGGER.info(driver);
+		LOGGER.info(connectionUrl);
+		LOGGER.info(userId);
+		LOGGER.info(password);
 		return new DatabaseConnection(driver, connectionUrl, userId,
 			password);
 	}

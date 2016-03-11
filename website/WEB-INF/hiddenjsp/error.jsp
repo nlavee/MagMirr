@@ -1,5 +1,5 @@
 <!-- ERROR -->
-
+<%@page pageEncoding="UTF-8" %>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%
 	String authenticated = VarNames.AUTHENTICATED_ATTRIBUTES_NAME;
@@ -16,7 +16,7 @@
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
-<title>MagMirr About</title>
+<title>MagMirr Error Page</title>
 </head>
 
 <body>

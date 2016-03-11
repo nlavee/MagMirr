@@ -3,7 +3,9 @@ package org.nlavee.skidmore.webapps.web.mode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -118,14 +120,17 @@ public class News extends HttpServlet implements VarNames {
 
 		if(returnedTop5s != null)
 		{
+			long seed = System.nanoTime();
+			Collections.shuffle(returnedTop5s, new Random(seed));
+			
 			// forward this to the other client
 			// do something with returnedTop5s.
-			for(int i = 0 ; i < returnedTop5s.size(); i += 5)
+			for(int i = 0 ; i < returnedTop5s.size(); i++)
 			{
 				NewsObj newsArticle = returnedTop5s.get(i);
 				String varNames = ("top5-" + i);
 				req.setAttribute(varNames, newsArticle.getTitle());
-				req.setAttribute("i", i);
+				req.setAttribute("i", Integer.toString(i));
 			}
 			fwdPath = MAIN_JSP;
 		}
@@ -146,10 +151,8 @@ public class News extends HttpServlet implements VarNames {
 	 */
 	private ArrayList<NewsObj> getNewsSection(String[] sectionsRequested) {
 		NewsAPIWrapper newsAPI = new NewsAPIWrapper();
-
 		ArrayList<NewsObj> returnedList = newsAPI.chooseSections(sectionsRequested);
-
-		if(returnedList == null) return null;
-		else return returnedList;
+		System.out.println("*********** \n" + returnedList);
+		return returnedList;
 	}
 }
