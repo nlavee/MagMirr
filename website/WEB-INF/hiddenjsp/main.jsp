@@ -1,6 +1,9 @@
+
 <!-- main -->
-<%@page pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -21,18 +24,18 @@
 	String currentTemp = VarNames.TEMP_WEATHER;
 	String firstName = VarNames.FIRST_NAME_PARAM_FIELD_NAME;
 	Date date = new Date();
-	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd, MMMMM, yyyy hh:mm aaa");
+	SimpleDateFormat dateFormatter = new SimpleDateFormat(
+			"dd, MMMMM, yyyy hh:mm aaa");
 	final String[] sectionValues = VarNames.NEWS_SECTIONS;
 	int i = 0;
-	try{
+	try {
 		i = Integer.parseInt((String) request.getAttribute("i"));
-	}
-	catch(NumberFormatException e)
-	{
+	} catch (NumberFormatException e) {
 		//nothing
 	}
 	String newsSelection = VarNames.MAIN_NEWS_SELECTION;
-	
+	String lyftAuthenticated = VarNames.LYFT_AUTHENTICATED;
+	String lyftAuthenticatedExpired = VarNames.LYFT_AUTHENTICATED_TIME_OUT;
 %>
 
 <html>
@@ -67,13 +70,14 @@
 		<h1 id="welcome" class="instruction">MagMirr 0.1 Main Dashboard.</h1>
 		<h3 class="instruction">
 			Hello
-			<%=(request.getSession().getAttribute(firstName) == null ? "there." : ("<u>" + request.getSession().getAttribute(firstName)+ ". </u>"))%></h3>
+			<%=(request.getSession().getAttribute(firstName) == null ? "there."
+					: ("<u>" + request.getSession().getAttribute(firstName) + ". </u>"))%></h3>
 		<h4><%=dateFormatter.format(date)%></h4>
 		<hr />
 	</div>
 
 	<div id="message_posting" class="mode_ops">
-		<form action="message">
+		<form action="message" method="post">
 			<fieldset>
 				<legend>Message broadcast</legend>
 				<textarea name=<%=textBox%> cols="50" rows="5">Enter your message here...</textarea>
@@ -90,22 +94,18 @@
 					type="submit" id="submit" class="input" value="Display Weather" />
 				<br />
 				<%
-						if(request.getAttribute(currentZipCode) != null)
-						{
-							%>
+					if (request.getAttribute(currentZipCode) != null) {
+				%>
 				<p>
 					Current weather is displayed for zipcode:
-					<%=request.getAttribute(currentZipCode)%>. Current
-					Temperature is
-					<%=request.getAttribute(currentTemp) %>&#x2103;.
+					<%=request.getAttribute(currentZipCode)%>. Current Temperature is
+					<%=request.getAttribute(currentTemp)%>&#x2103;.
 				</p>
 				<%
-						}
-						else
-						{
-							// load the zip code from previous section ?
-						}
-					%>
+					} else {
+						// load the zip code from previous section ?
+					}
+				%>
 			</fieldset>
 		</form>
 	</div>
@@ -118,23 +118,21 @@
 					multiple>
 
 					<%
-					for(String attr: sectionValues)
-					{
-						%>
-					<option value="<%=attr.replaceAll("\\s+","")%>"><%= StringUtils.capitalize(attr) %></option>
+						for (String attr : sectionValues) {
+					%>
+					<option value="<%=attr.replaceAll("\\s+", "")%>"><%=StringUtils.capitalize(attr)%></option>
 					<%
-					}
-				%>
+						}
+					%>
 				</select><br /> <input type="submit" id="submit" class="input"
 					value="Select Interested Topics" />
 		</form>
 		<div id="news_choosing" class="mode_ops">
 			<%
-				for(int count = 0 ; count < i; count ++)
-				{
+				for (int count = 0; count < i; count++) {
 					String varNames = "top5-" + count;
 					String title = (String) request.getAttribute(varNames);
-					%>
+			%>
 			<p><%=title%></p>
 			<%
 				}
@@ -143,14 +141,48 @@
 		</fieldset>
 	</div>
 
-	<div id="uber_authentication" class="mode_ops">
-		<form action="uber_ops" method="post" id="auth" class="auth">
+	<div id="lyft_authentication" class="mode_ops">
+		<%
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			String currentTime = sdf.format(cal.getTime());
+
+			if (request.getSession().getAttribute(lyftAuthenticated) == null
+					|| sdf.parse(currentTime).before(
+							sdf.parse((String) request.getSession()
+									.getAttribute(lyftAuthenticated)))) {
+		%>
+		<form action="lyft_ops" method="post" id="auth" class="auth">
 			<fieldset>
-				<legend>Uber Authentication Tool</legend>
+				<legend>Lyft Authentication Tool</legend>
 				<input type="submit" id="submit" class="input"
-					value="Authenticate with Uber" />
+					value="Authenticate with Lyft" />
 			</fieldset>
 		</form>
+		<%
+			} else {
+		%>
+		<form action="lyft_ride_type" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>Lyft Get Ride Type Tool</legend>
+				<input type="submit" id="submit" class="input" value="get ride type" />
+			</fieldset>
+		</form>
+		<form action="lyft_eta" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>Lyft ETA Tool</legend>
+				<input type="submit" id="submit" class="input" value="get ETA" />
+			</fieldset>
+		</form>
+		<form action="lyft_cost" method="post" id="auth" class="auth">
+			<fieldset>
+				<legend>Lyft Cost Tool</legend>
+				<input type="submit" id="submit" class="input" value="get cost" />
+			</fieldset>
+		</form>
+		<%
+			}
+		%>
 	</div>
 
 	<div class="info">

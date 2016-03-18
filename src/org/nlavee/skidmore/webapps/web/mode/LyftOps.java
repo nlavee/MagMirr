@@ -1,6 +1,8 @@
 package org.nlavee.skidmore.webapps.web.mode;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,9 +14,9 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.VarNames;
-import org.nlavee.skidmore.webapps.web.api.impl.UberAPIWrapper;
+import org.nlavee.skidmore.webapps.web.api.impl.LyftAPIWrapper;
 
-public class UberOps extends HttpServlet implements VarNames {
+public class LyftOps extends HttpServlet implements VarNames {
 
 
 	/**
@@ -30,9 +32,9 @@ public class UberOps extends HttpServlet implements VarNames {
 	/**
 	 * Logger Instance
 	 */
-	private static Logger LOGGER = Logger.getLogger(UberOps.class);
+	private static Logger LOGGER = Logger.getLogger(LyftOps.class);
  
-	public UberOps(){
+	public LyftOps(){
 		
 	}
 	
@@ -83,11 +85,11 @@ public class UberOps extends HttpServlet implements VarNames {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("POST request sent to LOGIN servlet");
-		UberRideProcess(req, resp);
+		LyftRideProcess(req, resp);
 	}
 
-	private void UberRideProcess(HttpServletRequest req,
-			HttpServletResponse resp) {
+	private void LyftRideProcess(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
 		
 		/*
 		 * Process to get lat and lon, create Coord Object
@@ -102,12 +104,17 @@ public class UberOps extends HttpServlet implements VarNames {
 		/*
 		 * Send to Uber API Wrapper
 		 */
-		UberAPIWrapper uber = new UberAPIWrapper();
-		JSONObject uberRideResponse = uber.getRides(coord);
+		LyftAPIWrapper lyft = new LyftAPIWrapper();
+		JSONObject accessTokenJSON = lyft.authenticate();
+		req.getSession().setAttribute(LYFT_AUTHENTICATED, accessTokenJSON.getString("access_token"));
+		int timeOut = accessTokenJSON.getInt("expires_in");
+		Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, timeOut / 60);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String expiredTime = sdf.format(cal.getTime());
+		req.getSession().setAttribute(LYFT_AUTHENTICATED_TIME_OUT, expiredTime);
 		
-		/*
-		 * Manipulate uberRideResponse
-		 */
-		
+		req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
+			
 	}
 }

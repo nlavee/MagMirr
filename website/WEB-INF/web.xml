@@ -131,16 +131,16 @@
   </servlet-mapping>
   
     <servlet>
-    <servlet-name>uber</servlet-name>
-    <display-name>Uber Servlet</display-name>
-    <description>The controller that allows user to work with Uber SDK.</description>
-    <servlet-class>org.nlavee.skidmore.webapps.web.mode.UberOps</servlet-class>
+    <servlet-name>lyft</servlet-name>
+    <display-name>Lyft Servlet</display-name>
+    <description>The controller that allows user to work with Lyft SDK.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.LyftOps</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>uber</servlet-name>
-    <url-pattern>/uber_ops/*</url-pattern>
+    <servlet-name>lyft</servlet-name>
+    <url-pattern>/lyft_ops/*</url-pattern>
   </servlet-mapping>
   
     <!-- Preload the JSP -->

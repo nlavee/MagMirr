@@ -21,6 +21,8 @@ public interface VarNames {
 	public static final String ZIPCODE_WEATHER = "zipcode_weather";
 	public static final String TEMP_WEATHER = "temp_weather";
 	public static final String LOGIN_UNSUCCESSFUL = "login_unsuccessful";
+	public static final String LYFT_AUTHENTICATED = "lyft_authenticated";
+	public static final String LYFT_AUTHENTICATED_TIME_OUT = "lyft_authenticated_time_out";
 	
 	/**
 	 * Different sections available
