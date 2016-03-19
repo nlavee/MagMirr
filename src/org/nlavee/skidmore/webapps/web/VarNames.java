@@ -23,6 +23,10 @@ public interface VarNames {
 	public static final String LOGIN_UNSUCCESSFUL = "login_unsuccessful";
 	public static final String LYFT_AUTHENTICATED = "lyft_authenticated";
 	public static final String LYFT_AUTHENTICATED_TIME_OUT = "lyft_authenticated_time_out";
+	public static final String LYFT_MODE = "lyft_mode";
+	public static final String LYFT_RIDE_TYPE_MODE = "lyft_ride_type";
+	public static final String LYFT_ETA_MODE = "lyft_eta";
+	public static final String LYFT_COST_MODE = "lyft_cost";
 	
 	/**
 	 * Different sections available
@@ -84,5 +88,10 @@ public interface VarNames {
 	 * JSP path to error.jsp
 	 */
 	public final static String ERROR_JSP = "/WEB-INF/hiddenjsp/error.jsp";	
+	
+	/*
+	 * JSP path to map.jsp
+	 */
+	public final static String MAP_JSP = "/WEB-INF/hiddenjsp/map.jsp";	
 
 }

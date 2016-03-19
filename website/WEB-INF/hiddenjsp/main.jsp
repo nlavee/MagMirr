@@ -1,9 +1,10 @@
-
 <!-- main -->
+
 <%@page pageEncoding="UTF-8"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
+<%@page import="java.text.ParseException"%>
 <%@page import="org.nlavee.skidmore.webapps.web.VarNames"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -41,7 +42,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
+<link rel="stylesheet" type="text/css" href="staticFiles/css/base.css"/>
 <title>MagMirr Dashboard</title>
 </head>
 
@@ -146,13 +147,25 @@
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			String currentTime = sdf.format(cal.getTime());
-
-			if (request.getSession().getAttribute(lyftAuthenticated) == null
-					|| sdf.parse(currentTime).before(
+			boolean pastTime = false;
+			
+			if(request.getSession()
+					.getAttribute(lyftAuthenticatedExpired) != null)
+			{
+				try {
+					pastTime = sdf.parse(currentTime).after(
 							sdf.parse((String) request.getSession()
-									.getAttribute(lyftAuthenticated)))) {
+									.getAttribute(lyftAuthenticatedExpired)));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (request.getSession().getAttribute(lyftAuthenticated) == null
+					|| pastTime) {
 		%>
-		<form action="lyft_ops" method="post" id="auth" class="auth">
+		<form action="lyftOps" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft Authentication Tool</legend>
 				<input type="submit" id="submit" class="input"
@@ -160,24 +173,29 @@
 			</fieldset>
 		</form>
 		<%
-			} else {
+			} 
+			else 
+			{
 		%>
-		<form action="lyft_ride_type" method="post" id="auth" class="auth">
+		<form action="lyftRideType" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft Get Ride Type Tool</legend>
-				<input type="submit" id="submit" class="input" value="get ride type" />
+				<input type="hidden" name="mode" value="rideType"/>
+				<input type="submit" id="submit" class="input" value="Get Ride Type" name="getRide"/>
 			</fieldset>
 		</form>
-		<form action="lyft_eta" method="post" id="auth" class="auth">
+		<form action="lyftETA" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft ETA Tool</legend>
-				<input type="submit" id="submit" class="input" value="get ETA" />
+				<input type="hidden" name="mode" value="ETA"/>
+				<input type="submit" id="submit" class="input" value="Get ETA" name="ETA"/>
 			</fieldset>
 		</form>
-		<form action="lyft_cost" method="post" id="auth" class="auth">
+		<form action="lyftCost" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft Cost Tool</legend>
-				<input type="submit" id="submit" class="input" value="get cost" />
+				<input type="hidden" name="mode" value="cost"/>
+				<input type="submit" id="submit" class="input" value="Get Cost" name="Cost"/>
 			</fieldset>
 		</form>
 		<%

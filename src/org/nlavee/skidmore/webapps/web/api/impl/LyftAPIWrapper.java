@@ -7,6 +7,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -274,10 +277,29 @@ public class LyftAPIWrapper implements LyftInterface, APIKEYS{
 	{
 		LyftAPIWrapper test = new LyftAPIWrapper();
 		JSONObject accessToken = test.authenticate();
+		System.out.println(accessToken.getString("access_token"));
+		int timeOut = accessToken.getInt("expires_in");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, timeOut / 60);
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String expiredTime = sdf.format(cal.getTime());
+		System.out.println(expiredTime);
+		
+		Calendar cal2 = Calendar.getInstance();
+		SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+		String currentTime = sdf2.format(cal2.getTime());
+		
+		try {
+			System.out.println(sdf2.parse(expiredTime).after(sdf2.parse(currentTime)));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Coords coord = new Coords(37.7772, -122.4233);
 		Coords coordEnd = new Coords(37.7972, -122.4533);
-		//JSONObject rideType = test.getRideType(coord, accessToken);
-		//JSONObject ETA = test.getETA(coord, accessToken);
+		JSONObject rideType = test.getRideType(coord, accessToken);
+		JSONObject ETA = test.getETA(coord, accessToken);
 		JSONObject cost = test.getCost(coord, coordEnd, accessToken);
 		System.out.println(cost);
 	}

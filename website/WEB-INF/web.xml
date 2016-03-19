@@ -132,21 +132,50 @@
   
     <servlet>
     <servlet-name>lyft</servlet-name>
-    <display-name>Lyft Servlet</display-name>
-    <description>The controller that allows user to work with Lyft SDK.</description>
-    <servlet-class>org.nlavee.skidmore.webapps.web.mode.LyftOps</servlet-class>
+    <display-name>Lyft Authentication Servlet</display-name>
+    <description>The controller that allows user to work with Lyft Authentication.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.LyftAuthentication</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>lyft</servlet-name>
-    <url-pattern>/lyft_ops/*</url-pattern>
+    <url-pattern>/lyftOps/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>lyftModes</servlet-name>
+    <display-name>Lyft Operations Servlet</display-name>
+    <description>The controller that allows user to work with Lyft.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.LyftOps</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>lyftModes</servlet-name>
+    <url-pattern>/lyftRideType/*</url-pattern>
+  </servlet-mapping>
+  
+    <servlet-mapping>
+    <servlet-name>lyftModes</servlet-name>
+    <url-pattern>/lyftETA/*</url-pattern>
+  </servlet-mapping>
+  
+    <servlet-mapping>
+    <servlet-name>lyftModes</servlet-name>
+    <url-pattern>/lyftCost/*</url-pattern>
   </servlet-mapping>
   
     <!-- Preload the JSP -->
   <servlet>
     <servlet-name>edittask-jsp</servlet-name>
     <jsp-file>/WEB-INF/hiddenjsp/login.jsp</jsp-file>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+    <servlet>
+    <servlet-name>map-jsp</servlet-name>
+    <jsp-file>/WEB-INF/hiddenjsp/map.jsp</jsp-file>
     <load-on-startup>1</load-on-startup>
   </servlet>
   

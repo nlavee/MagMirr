@@ -1,8 +1,6 @@
 package org.nlavee.skidmore.webapps.web.mode;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,13 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.VarNames;
-import org.nlavee.skidmore.webapps.web.api.impl.LyftAPIWrapper;
 
-public class LyftOps extends HttpServlet implements VarNames {
-
+public class LyftOps extends HttpServlet implements VarNames{
 
 	/**
 	 * The internal version id of this class
@@ -33,11 +28,11 @@ public class LyftOps extends HttpServlet implements VarNames {
 	 * Logger Instance
 	 */
 	private static Logger LOGGER = Logger.getLogger(LyftOps.class);
- 
-	public LyftOps(){
-		
+
+	public LyftOps() {
+
 	}
-	
+
 	/**
 	 * Called by container when servlet instance is created. This method sets-up
 	 * the logger and DB connection properties.
@@ -48,7 +43,7 @@ public class LyftOps extends HttpServlet implements VarNames {
 	public void init(ServletConfig config) {
 		LOGGER.warn("Servlet init.  Version: " + VERSION);
 	}
-	
+
 	/**
 	 * This method just redirect get request back to the
 	 * initial form now
@@ -65,7 +60,7 @@ public class LyftOps extends HttpServlet implements VarNames {
 	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		LOGGER.info("GET request sent to LOGIN servlet");
+		LOGGER.info("GET request sent to LyftOps servlet");
 		req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
 	}
 
@@ -84,37 +79,125 @@ public class LyftOps extends HttpServlet implements VarNames {
 	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		LOGGER.info("POST request sent to LOGIN servlet");
-		LyftRideProcess(req, resp);
+		LOGGER.info("POST request sent to LyftOps servlet");
+		LyftOperationController(req, resp);
 	}
 
-	private void LyftRideProcess(HttpServletRequest req,
+	/**
+	 * Method to separate each case of the operation for the user
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void LyftOperationController(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
+		String pathFwd = MAIN_JSP;
 		
-		/*
-		 * Process to get lat and lon, create Coord Object
-		 */
-		
-		//TODO find a way to get lat and lon from req.
-		Double lat = new Double(0.0);
-		Double lon = new Double(0.0);
-		
-		Coords coord = new Coords(lat, lon);
-		
-		/*
-		 * Send to Uber API Wrapper
-		 */
-		LyftAPIWrapper lyft = new LyftAPIWrapper();
-		JSONObject accessTokenJSON = lyft.authenticate();
-		req.getSession().setAttribute(LYFT_AUTHENTICATED, accessTokenJSON.getString("access_token"));
-		int timeOut = accessTokenJSON.getInt("expires_in");
-		Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, timeOut / 60);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String expiredTime = sdf.format(cal.getTime());
-		req.getSession().setAttribute(LYFT_AUTHENTICATED_TIME_OUT, expiredTime);
-		
-		req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
+		if(req.getParameter("mode") != null)
+		{
+			if(req.getParameter("mode").equals("rideType"))
+			{
+				getRideType(req, resp);
+				pathFwd = MAP_JSP;
+			}
+			else if(req.getParameter("mode").equals("ETA"))
+			{
+				getETA(req, resp);
+				pathFwd = MAP_JSP;
+			}
+			else if(req.getParameter("mode").equals("cost"))
+			{
+				getCost(req, resp);
+				pathFwd = MAP_JSP;
+			}
+			else if(req.getParameter("mode").equals("getRideType"))
+			{
+				String lat = req.getParameter("lat");
+				String lon = req.getParameter("lon");
+				Coords coord = new Coords(Double.parseDouble(lat), Double.parseDouble(lon));
+				getRideTypeViaAPI(coord);
+			}
+			else if(req.getParameter("mode").equals("getETA"))
+			{
+				String lat = req.getParameter("lat");
+				String lon = req.getParameter("lon");
+				Coords coord = new Coords(Double.parseDouble(lat), Double.parseDouble(lon));
+				getETAViaAPI(coord);
+			}
+			else if(req.getParameter("mode").equals("getCost"))
+			{
+				String lat = req.getParameter("lat");
+				String lon = req.getParameter("lon");
+				Coords coord = new Coords(Double.parseDouble(lat), Double.parseDouble(lon));
+				getCostViaAPI(coord);
+			}
 			
+		}
+		LOGGER.info("path forward: " + pathFwd);
+		req.getRequestDispatcher(pathFwd).forward(req, resp);
+	}
+
+	/**
+	 * Method that fetch data for cost through Lyft API
+	 * @param coord
+	 */
+	private void getCostViaAPI(Coords coord) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Method that fetch data for ETA through Lyft API
+	 * @param coord
+	 */
+	private void getETAViaAPI(Coords coord) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * Method that fetch data for ride type through Lyft API
+	 * @param coord
+	 */
+	private void getRideTypeViaAPI(Coords coord) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Put indicator of cost mode into request
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void getCost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute(LYFT_MODE, LYFT_COST_MODE);
+		LOGGER.info("Mode: Cost");
+	}
+
+	/**
+	 * Put indicator of eta mode into request
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void getETA(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute(LYFT_MODE, LYFT_ETA_MODE);
+		LOGGER.info("Mode: ETA");
+	}
+
+	/**
+	 * Put indicator of ride type mode into request
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void getRideType(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute(LYFT_MODE, LYFT_RIDE_TYPE_MODE);
+		LOGGER.info("Mode: Ride Type");
 	}
 }
