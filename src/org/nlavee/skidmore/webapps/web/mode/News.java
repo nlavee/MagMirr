@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 import org.nlavee.skidmore.webapps.web.api.impl.NewsAPIWrapper;
 import org.nlavee.skidmore.webapps.web.model.NewsObj;
 
@@ -112,6 +113,20 @@ public class News extends HttpServlet implements VarNames {
 		if(sectionSelected.length > 0)
 		{
 			returnedTop5s = getNewsSection(sectionSelected);
+			
+			// forward to secondary client
+			ConnectorWrapper connector = new ConnectorWrapper();
+			boolean success = connector.forwardNews(sectionSelected);
+			
+			if(success)
+			{
+				req.getSession().setAttribute(NEWS_FORWARDED_STATUS, true);
+			}
+			else
+			{
+				req.getSession().setAttribute(NEWS_FORWARDED_STATUS, false);
+			}
+			
 		}
 		else
 		{
@@ -152,7 +167,6 @@ public class News extends HttpServlet implements VarNames {
 	private ArrayList<NewsObj> getNewsSection(String[] sectionsRequested) {
 		NewsAPIWrapper newsAPI = new NewsAPIWrapper();
 		ArrayList<NewsObj> returnedList = newsAPI.chooseSections(sectionsRequested);
-		System.out.println("*********** \n" + returnedList);
 		return returnedList;
 	}
 }

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.WeatherDBInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 import org.nlavee.skidmore.webapps.web.api.impl.WeatherAPIWrapper;
 
 public class Weather extends HttpServlet implements VarNames {
@@ -100,18 +101,22 @@ public class Weather extends HttpServlet implements VarNames {
 			if(zipcodeInt != null)
 			{
 				String userName = (String) req.getSession().getAttribute(USER_PARAM_FIELD_NAME);
-				String temp = processWeatherRequest(zipcodeInt, userName);
+				JSONObject currWeather = processWeatherRequest(zipcodeInt, userName);
 				
-				/*
-				 * Forward currWeather to the other client
-				 */
-
-				/*
-				 * Show that this request has been processed and was
-				 * successful
-				 */
-
-				//TODO for now, this goes back to main page without any update.
+				ConnectorWrapper connector = new ConnectorWrapper();
+				boolean success = connector.forwardTemperature(currWeather);
+				if(success)
+				{
+					req.getSession().setAttribute(WEATHER_FORWARDED_STATUS, true);
+				}
+				else
+				{
+					req.getSession().setAttribute(WEATHER_FORWARDED_STATUS, false);
+				}
+				
+				JSONObject mainJson = (JSONObject) currWeather.get("main");
+				String temp = String.valueOf(Math.round(Float.parseFloat(mainJson.get("temp").toString())));
+				
 				req.setAttribute(ZIPCODE_WEATHER, zipcodeInt);
 				req.setAttribute(TEMP_WEATHER, temp);
 				req.getRequestDispatcher(MAIN_MODE).forward(req, resp);
@@ -135,9 +140,9 @@ public class Weather extends HttpServlet implements VarNames {
 	 * Method that process saving to database and getting the initial data for returning in resp
 	 * @param zipcodeInt
 	 * @param userName
-	 * @return String which should be the current temperature in Celcius.
+	 * @return JSONObject of current weather in Celcius.
 	 */
-	private String processWeatherRequest(Integer zipcodeInt, String userName) {
+	private JSONObject processWeatherRequest(Integer zipcodeInt, String userName) {
 		/*
 		 * Save to db
 		 */
@@ -149,11 +154,8 @@ public class Weather extends HttpServlet implements VarNames {
 		 */
 		WeatherAPIWrapper weatherAPI = new WeatherAPIWrapper();
 		JSONObject currWeather = weatherAPI.getWeather(zipcodeInt);
-
-		JSONObject mainJson = (JSONObject) currWeather.get("main");
-		String temp = String.valueOf(Math.round(Float.parseFloat(mainJson.get("temp").toString())));
 		
-		return temp;
+		return currWeather;
 	}
 
 

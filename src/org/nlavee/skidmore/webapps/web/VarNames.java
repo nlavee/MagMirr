@@ -9,6 +9,12 @@ public interface VarNames {
 	public final static String FIRST_NAME_PARAM_FIELD_NAME = "first_name";
 	public final static String LAST_NAME_PARAM_FIELD_NAME = "last_name";
 	public final static String AUTHENTICATED_ATTRIBUTES_NAME = "authenticated";
+	public final static String MESSAGE_FORWARDED_STATUS = "messagePost";
+	public final static String WEATHER_FORWARDED_STATUS = "weatherPost";
+	public final static String NEWS_FORWARDED_STATUS = "newsPost";
+	public final static String LYFT_RIDETYPE_FORWARDED_STATUS = "lyft_ridetypePost";
+	public final static String LYFT_COST_FORWARDED_STATUS = "lyft_costPost";
+	public final static String LYFT_ETA_FORWARDED_STATUS = "lyft_etaPost";
 	public final static String ABOUT_MODE = "about";
 	public final static String CONTACT_MODE = "contact";
 	public final static String LOGIN_MODE = "login";

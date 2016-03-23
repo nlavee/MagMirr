@@ -37,6 +37,12 @@
 	String newsSelection = VarNames.MAIN_NEWS_SELECTION;
 	String lyftAuthenticated = VarNames.LYFT_AUTHENTICATED;
 	String lyftAuthenticatedExpired = VarNames.LYFT_AUTHENTICATED_TIME_OUT;
+	String messageForwarded = VarNames.MESSAGE_FORWARDED_STATUS;
+	String weatherForwarded = VarNames.WEATHER_FORWARDED_STATUS;
+	String newsForwarded = VarNames.NEWS_FORWARDED_STATUS;
+	String lyftRideTypeForwarded = VarNames.LYFT_RIDETYPE_FORWARDED_STATUS;
+	String lyftETAForwarded = VarNames.LYFT_ETA_FORWARDED_STATUS;
+	String lyftCostForwarded = VarNames.LYFT_COST_FORWARDED_STATUS;
 %>
 
 <html>
@@ -83,6 +89,24 @@
 				<legend>Message broadcast</legend>
 				<textarea name=<%=textBox%> cols="50" rows="5">Enter your message here...</textarea>
 				<br /> <input type="submit" value="Submit">
+				<%
+					if(request.getSession().getAttribute(messageForwarded) != null)
+					{
+						if(request.getSession().getAttribute(messageForwarded).equals(true))
+						{
+							%>
+							<p>Your message has been posted successfully.</p>
+							<%
+						}
+						else
+						{
+							%>
+							<p>ERROR: Your message has failed to be posted. Please try again.</p>
+							<%
+						}
+						request.getSession().setAttribute(messageForwarded, null);
+					}
+				%>
 			</fieldset>
 		</form>
 	</div>
@@ -106,15 +130,32 @@
 					} else {
 						// load the zip code from previous section ?
 					}
+				
+					if(request.getSession().getAttribute(weatherForwarded) != null)
+					{
+						if(request.getSession().getAttribute(weatherForwarded).equals(true))
+						{
+							%>
+							<p>Your weather has been posted successfully.</p>
+							<%
+						}
+						else
+						{
+							%>
+							<p>ERROR: Your weather has failed to be posted. Please try again.</p>
+							<%
+						}
+						request.getSession().setAttribute(weatherForwarded, null);
+					}
 				%>
 			</fieldset>
 		</form>
 	</div>
 
 	<div id="news_choosing" class="mode_ops">
+		<fieldset>
+		<legend>News Selection Tool</legend>
 		<form action="news" method="post" id="auth" class="auth">
-			<fieldset>
-				<legend>News Selection Tool</legend>
 				Your Selection of Topics: <br /> <select name=<%=newsSelection%>
 					multiple>
 
@@ -139,6 +180,26 @@
 				}
 			%>
 		</div>
+		<div>
+			<%
+			if(request.getSession().getAttribute(newsForwarded) != null)
+			{
+				if(request.getSession().getAttribute(newsForwarded).equals(true))
+				{
+					%>
+					<p>Your news has been posted successfully.</p>
+					<%
+				}
+				else
+				{
+					%>
+					<p>ERROR: Your news has failed to be posted. Please try again.</p>
+					<%
+					}
+					request.getSession().setAttribute(newsForwarded, null);
+			}
+			%>	
+			</div>	
 		</fieldset>
 	</div>
 
@@ -182,6 +243,26 @@
 				<legend>Lyft Get Ride Type Tool</legend>
 				<input type="hidden" name="mode" value="rideType"/>
 				<input type="submit" id="submit" class="input" value="Get Ride Type" name="getRide"/>
+				
+				<%
+					if(request.getSession().getAttribute(lyftRideTypeForwarded) != null)
+					{
+						if(request.getSession().getAttribute(lyftRideTypeForwarded).equals(true))
+						{
+							%>
+							<p>Your Lyft ride type has been posted successfully.</p>
+							<%
+						}
+						else
+						{
+							%>
+							<p>ERROR: Your Lyft ride type has failed to be posted. Please try again.</p>
+							<%
+						}
+						request.getSession().setAttribute(lyftRideTypeForwarded, null);
+					}
+				%>				
+				
 			</fieldset>
 		</form>
 		<form action="lyftETA" method="post" id="auth" class="auth">
@@ -189,6 +270,26 @@
 				<legend>Lyft ETA Tool</legend>
 				<input type="hidden" name="mode" value="ETA"/>
 				<input type="submit" id="submit" class="input" value="Get ETA" name="ETA"/>
+				
+				<%
+					if(request.getSession().getAttribute(lyftETAForwarded) != null)
+					{
+						if(request.getSession().getAttribute(lyftETAForwarded).equals(true))
+						{
+							%>
+							<p>Your Lyft ETA has been posted successfully.</p>
+							<%
+						}
+						else
+						{
+							%>
+							<p>ERROR: Your Lyft ETA has failed to be posted. Please try again.</p>
+							<%
+						}
+						request.getSession().setAttribute(lyftETAForwarded, null);
+					}
+				%>
+				
 			</fieldset>
 		</form>
 		<form action="lyftCost" method="post" id="auth" class="auth">
@@ -196,6 +297,26 @@
 				<legend>Lyft Cost Tool</legend>
 				<input type="hidden" name="mode" value="cost"/>
 				<input type="submit" id="submit" class="input" value="Get Cost" name="Cost"/>
+				
+				<%
+					if(request.getSession().getAttribute(lyftCostForwarded) != null)
+					{
+						if(request.getSession().getAttribute(lyftCostForwarded).equals(true))
+						{
+							%>
+							<p>Your Lyft cost has been posted successfully.</p>
+							<%
+						}
+						else
+						{
+							%>
+							<p>ERROR: Your Lyft cost has failed to be posted. Please try again.</p>
+							<%
+						}
+						request.getSession().setAttribute(lyftCostForwarded, null);
+					}
+				%>
+				
 			</fieldset>
 		</form>
 		<%

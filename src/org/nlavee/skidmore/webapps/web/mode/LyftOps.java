@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.beans.Coords;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 import org.nlavee.skidmore.webapps.web.api.impl.LyftAPIWrapper;
 
 import com.google.gson.JsonObject;
@@ -121,7 +122,21 @@ public class LyftOps extends HttpServlet implements VarNames{
 				String lon = req.getParameter("lon");
 				Coords coord = new Coords(Double.parseDouble(lat), Double.parseDouble(lon));
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
-				getRideTypeViaAPI(coord, sessionToken);
+				JSONObject lyftResponse = getRideTypeViaAPI(coord, sessionToken);
+				
+				ConnectorWrapper connector = new ConnectorWrapper();
+				boolean success = connector.forwardLyftRideType(lyftResponse);
+				
+				if(success)
+				{
+					req.getSession().setAttribute(LYFT_RIDETYPE_FORWARDED_STATUS, true);
+				}
+				else
+				{
+					req.getSession().setAttribute(LYFT_RIDETYPE_FORWARDED_STATUS, false);
+				}
+
+				pathFwd = MAIN_JSP;
 			}
 			else if(req.getParameter("mode").equals("getETA"))
 			{
@@ -129,7 +144,21 @@ public class LyftOps extends HttpServlet implements VarNames{
 				String lon = req.getParameter("lon");
 				Coords coord = new Coords(Double.parseDouble(lat), Double.parseDouble(lon));
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
-				getETAViaAPI(coord, sessionToken);
+				JSONObject lyftResponse = getETAViaAPI(coord, sessionToken);
+				
+				ConnectorWrapper connector = new ConnectorWrapper();
+				boolean success = connector.forwardLyftETA(lyftResponse);
+				
+				if(success)
+				{
+					req.getSession().setAttribute(LYFT_ETA_FORWARDED_STATUS, true);
+				}
+				else
+				{
+					req.getSession().setAttribute(LYFT_ETA_FORWARDED_STATUS, false);
+				}
+
+				pathFwd = MAIN_JSP;
 			}
 			else if(req.getParameter("mode").equals("getCost"))
 			{
@@ -143,7 +172,21 @@ public class LyftOps extends HttpServlet implements VarNames{
 				Coords coordEnd = new Coords(Double.parseDouble(latEnd), Double.parseDouble(lonEnd));
 				
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
-				getCostViaAPI(coordStart, coordEnd, sessionToken);
+				JSONObject lyftResponse = getCostViaAPI(coordStart, coordEnd, sessionToken);
+				
+				ConnectorWrapper connector = new ConnectorWrapper();
+				boolean success = connector.forwardLyftCost(lyftResponse);
+				
+				if(success)
+				{
+					req.getSession().setAttribute(LYFT_COST_FORWARDED_STATUS, true);
+				}
+				else
+				{
+					req.getSession().setAttribute(LYFT_COST_FORWARDED_STATUS, false);
+				}
+				
+				pathFwd = MAIN_JSP;
 			}
 			
 		}
@@ -168,10 +211,12 @@ public class LyftOps extends HttpServlet implements VarNames{
 	 * @param coord
 	 * @param sessionToken 
 	 */
-	private void getCostViaAPI(Coords coordStart, Coords coordEnd, String sessionToken) {
+	private JSONObject getCostViaAPI(Coords coordStart, Coords coordEnd, String sessionToken) {
 		LyftAPIWrapper lyft = new LyftAPIWrapper();
 		JSONObject token = createAccessToken(sessionToken);
-		
+		JSONObject lyftResponse = lyft.getCost(coordStart, coordEnd, token);
+		LOGGER.info("Lyft responded for cost: " + lyftResponse);
+		return lyftResponse;
 	}
 
 	/**
@@ -179,11 +224,12 @@ public class LyftOps extends HttpServlet implements VarNames{
 	 * @param coord
 	 * @param sessionToken 
 	 */
-	private void getETAViaAPI(Coords coord, String sessionToken) {
+	private JSONObject getETAViaAPI(Coords coord, String sessionToken) {
 		LyftAPIWrapper lyft = new LyftAPIWrapper();
 		JSONObject token = createAccessToken(sessionToken);
 		JSONObject lyftResponse = lyft.getETA(coord, token);
 		LOGGER.info("Lyft responded for ETA: " + lyftResponse);
+		return lyftResponse;
 	}
 	
 	/**
@@ -191,11 +237,12 @@ public class LyftOps extends HttpServlet implements VarNames{
 	 * @param coord
 	 * @param sessionToken 
 	 */
-	private void getRideTypeViaAPI(Coords coord, String sessionToken) {
+	private JSONObject getRideTypeViaAPI(Coords coord, String sessionToken) {
 		LyftAPIWrapper lyft = new LyftAPIWrapper();
 		JSONObject token = createAccessToken(sessionToken);
 		JSONObject lyftResponse = lyft.getRideType(coord, token);
 		LOGGER.info("Lyft responded for ride type: " + lyftResponse);
+		return lyftResponse;
 	}
 
 	/**

@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 
 public class Message extends HttpServlet implements VarNames {
 	/**
@@ -62,7 +63,7 @@ public class Message extends HttpServlet implements VarNames {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LOGGER.info("GET request sent to Message servlet");
-		req.getRequestDispatcher(LOGIN_JSP).forward(req, resp);
+		req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 	}
 
 	/**
@@ -102,20 +103,21 @@ public class Message extends HttpServlet implements VarNames {
 				/*
 				 * Forward this message to the mirror
 				 */
-
+				ConnectorWrapper connector = new ConnectorWrapper();
+				boolean mirrorFetch = connector.forwardMessage(messageBody);
+				
 				/*
 				 * Return response saying that it's successful
 				 */
-				boolean mirrorFetch = true;
-
 				if(mirrorFetch)
 				{
-					req.getSession().setAttribute("messagePost", "sucess");
+					req.getSession().setAttribute(MESSAGE_FORWARDED_STATUS, true);
 				}
 				else
 				{
 					// TODO consider deleting the message from db if we cannot send it to mirror?
 					LOGGER.error("Can't forward to mirror");
+					req.getSession().setAttribute(MESSAGE_FORWARDED_STATUS, false);
 				}
 			}
 			else
