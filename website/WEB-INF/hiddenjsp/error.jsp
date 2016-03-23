@@ -38,7 +38,7 @@
 	<br />
 
 	<!-- Website Content -->
-	<h1>Something wrong happened!</h1>
+	<h1 class="page_content">Something wrong happened!</h1>
 
 	<div class="info">
 		<p>
