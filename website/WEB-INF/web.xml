@@ -166,6 +166,21 @@
     <url-pattern>/lyftCost/*</url-pattern>
   </servlet-mapping>
   
+  
+    <servlet>
+    <servlet-name>register</servlet-name>
+    <display-name>Register Mirror Servlet</display-name>
+    <description>The controller that register the mirror.</description>
+    <servlet-class>org.nlavee.skidmore.webapps.web.mode.RegisterMirror</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/register/*</url-pattern>
+  </servlet-mapping>
+  
+  
     <!-- Preload the JSP -->
   <servlet>
     <servlet-name>edittask-jsp</servlet-name>

@@ -38,7 +38,7 @@
 	<br />
 
 	<!-- Website Content -->
-	<h1>How this idea come about and why I pursued this project.</h1>
+	<h1 class="page_content">How this idea come about and why I pursued this project.</h1>
 	<p>
 		The basic idea came from the time where I read about a magic mirror
 		being built by various hackers and decided that I want one with more

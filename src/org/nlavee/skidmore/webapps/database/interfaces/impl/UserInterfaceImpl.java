@@ -9,7 +9,7 @@ import org.nlavee.skidmore.webapps.database.beans.Message;
 import org.nlavee.skidmore.webapps.database.beans.NewUser;
 import org.nlavee.skidmore.webapps.database.beans.Password;
 import org.nlavee.skidmore.webapps.database.beans.User;
-import org.nlavee.skidmore.webapps.database.dao.UserMapping;
+import org.nlavee.skidmore.webapps.database.dao.ObjMapping;
 import org.nlavee.skidmore.webapps.database.interfaces.UserInterface;
 import org.nlavee.skidmore.webapps.web.utils.PasswordUtils;
 
@@ -21,7 +21,7 @@ public class UserInterfaceImpl implements UserInterface{
 		String userName = user.getUserName();
 		String password = user.getPassword();
 		
-		UserMapping um = new UserMapping();
+		ObjMapping um = new ObjMapping();
 		boolean matchingPassword = um.isMatchingPassword(password, userName);
 		
 		if(!matchingPassword) return false;
@@ -38,7 +38,7 @@ public class UserInterfaceImpl implements UserInterface{
 		String lastName = user.getLastName();
 		
 		Password pwdObject = PasswordUtils.generateSaltAndHash(pwd);
-		UserMapping um = new UserMapping();
+		ObjMapping um = new ObjMapping();
 		boolean success = um.createUser(pwdObject, user);
 		
 		/*
@@ -66,7 +66,7 @@ public class UserInterfaceImpl implements UserInterface{
 
 	@Override
 	public String getFirstName(String userName) {
-		UserMapping um = new UserMapping();
+		ObjMapping um = new ObjMapping();
 		return um.getFirstName(userName);
 	}
 

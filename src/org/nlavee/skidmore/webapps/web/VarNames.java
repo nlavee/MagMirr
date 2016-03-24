@@ -33,6 +33,9 @@ public interface VarNames {
 	public static final String LYFT_RIDE_TYPE_MODE = "lyft_ride_type";
 	public static final String LYFT_ETA_MODE = "lyft_eta";
 	public static final String LYFT_COST_MODE = "lyft_cost";
+	public static final String MIRROR_ON = "mirror_on";
+	public static final String MIRROR_IP = "mirror_ip";
+	public static final String MIRROR_RANGE_GEN = "mirror_range_generated";
 	
 	/**
 	 * Different sections available
@@ -99,5 +102,15 @@ public interface VarNames {
 	 * JSP path to map.jsp
 	 */
 	public final static String MAP_JSP = "/WEB-INF/hiddenjsp/map.jsp";	
+	
+	/*
+	 * JSP path to client_welcome.jsp
+	 */
+	public final static String CLIENT_WELCOME_JSP = "/WEB-INF/hiddenjsp/client_welcome.jsp";
+	
+	/*
+	 * JSP path to client_main.jsp
+	 */
+	public final static String CLIENT_MAIN_JSP = "/WEB-INF/hiddenjsp/client_main.jsp";	
 
 }

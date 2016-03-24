@@ -10,17 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserMapping extends AbstractMapper {
+public class ObjMapping extends AbstractMapper {
 
 	/**
 	 * The logger
 	 */
-	private static final Logger LOG = Logger.getLogger(UserMapping.class);
+	private static final Logger LOG = Logger.getLogger(ObjMapping.class);
 
 	/**
 	 * Constructor - no operation
 	 */
-	public UserMapping()
+	public ObjMapping()
 	{
 		super();
 	}
@@ -327,7 +327,6 @@ public class UserMapping extends AbstractMapper {
 	{
 		DatabaseConnection connection = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
 		
 		try {
 			connection = this.getDatabaseConnection();
@@ -341,11 +340,33 @@ public class UserMapping extends AbstractMapper {
 		} catch (SQLException e) {
 			LOG.error("Could not update weather location ", e);
 		}
+		finally
+		{
+			if(stmt != null)
+			{
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					LOG.error("Could not close statement", e);
+				}
+			}
+			if(connection != null)
+			{
+				try
+				{
+					connection.closeStatement(stmt);
+				}
+				catch(Throwable e)
+				{
+					LOG.error("Could not close connection ", e);
+				}
+			}
+		}
 	}
 	
 	public static void main(String[] args)
 	{
-		UserMapping um = new UserMapping();
+		ObjMapping um = new ObjMapping();
 		System.out.println(um.getFirstName("test_nujabes"));
 		System.out.println(um.isMatchingPassword("password", "test_nujabes"));
 	}
