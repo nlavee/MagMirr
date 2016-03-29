@@ -80,6 +80,6 @@ create table uber_API (
 create table weather (
 	id integer(10) auto_increment not null,
 	zipcode integer(10) not null,
-	user_id integer(10) not null,
+	user_id integer(10) unique not null,
 	primary key (id)
 );

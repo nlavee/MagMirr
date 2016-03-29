@@ -114,7 +114,7 @@ public class LyftOps extends HttpServlet implements VarNames{
 			else if(req.getParameter("mode").equals("cost"))
 			{
 				getCost(req, resp);
-				pathFwd = MAP_JSP;
+				pathFwd = MAP_COST_JSP;
 			}
 			else if(req.getParameter("mode").equals("getRideType"))
 			{

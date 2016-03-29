@@ -14,31 +14,31 @@ public class ConnectorWrapper implements ConnectorInterface{
 	@Override
 	public boolean forwardTemperature(JSONObject weatherObject) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean forwardNews(String[] newsSelection) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean forwardLyftRideType(JSONObject rideTypeObject) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean forwardLyftETA(JSONObject ETAObject) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean forwardLyftCost(JSONObject costObject) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

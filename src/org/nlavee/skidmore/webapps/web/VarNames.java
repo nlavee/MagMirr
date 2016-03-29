@@ -104,6 +104,11 @@ public interface VarNames {
 	public final static String MAP_JSP = "/WEB-INF/hiddenjsp/map.jsp";	
 	
 	/*
+	 * JSP path to map_cost.jsp
+	 */
+	public final static String MAP_COST_JSP = "/WEB-INF/hiddenjsp/map_cost.jsp";	
+	
+	/*
 	 * JSP path to client_welcome.jsp
 	 */
 	public final static String CLIENT_WELCOME_JSP = "/WEB-INF/hiddenjsp/client_welcome.jsp";

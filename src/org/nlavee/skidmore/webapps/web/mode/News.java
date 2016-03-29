@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.nlavee.skidmore.webapps.database.interfaces.NewsDBInterface;
+import org.nlavee.skidmore.webapps.database.interfaces.impl.NewsDBInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 import org.nlavee.skidmore.webapps.web.api.impl.NewsAPIWrapper;
@@ -103,15 +105,24 @@ public class News extends HttpServlet implements VarNames {
 		{
 			sectionSelected = req.getParameterValues(MAIN_NEWS_SELECTION);
 
-			for(String section : sectionSelected)
+			for(int i = 0; i < sectionSelected.length; i++)
 			{
-				LOGGER.info("Requested section: " + section);
+				String section = sectionSelected[i];
+				sectionSelected[i]  = section.trim();
+				LOGGER.info("Requested section: " + section.trim());
 			}
 		}
 
 		ArrayList<NewsObj> returnedTop5s = null;
 		if(sectionSelected.length > 0)
 		{
+			String userName = (String) req.getSession().getAttribute(USER_PARAM_FIELD_NAME);
+			NewsDBInterfaceImpl newsDB = new NewsDBInterfaceImpl();
+			for(String section : sectionSelected)
+			{
+				newsDB.saveSection(section,userName);
+			}
+			
 			returnedTop5s = getNewsSection(sectionSelected);
 			
 			// forward to secondary client

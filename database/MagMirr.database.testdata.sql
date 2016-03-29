@@ -15,3 +15,21 @@ insert into privilege (privilege_description, privilege_name) values ("admin use
 insert into privilege (privilege_description, privilege_name) values ("normal user", "norm");
 insert into privilege (privilege_description, privilege_name) values ("guest user", "guest");
 
+# INSERT DATA FOR NEWS
+insert into news (section_name) value ("home");
+insert into news (section_name) value ("world");
+insert into news (section_name) value ("national");
+insert into news (section_name) value ("politics");
+insert into news (section_name) value ("ny region");
+insert into news (section_name) value ("business");
+insert into news (section_name) value ("opinion");
+insert into news (section_name) value ("technology");
+insert into news (section_name) value ("science");
+insert into news (section_name) value ("health");
+insert into news (section_name) value ("sports");
+insert into news (section_name) value ("arts");
+insert into news (section_name) value ("fashion");
+insert into news (section_name) value ("dining");
+insert into news (section_name) value ("travel");
+insert into news (section_name) value ("magazine");
+insert into news (section_name) value ("real estate");

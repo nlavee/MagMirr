@@ -96,14 +96,18 @@ public class LyftAuthentication extends HttpServlet implements VarNames {
 		JSONObject accessTokenJSON = lyft.authenticate();
 
 		req.getSession().setAttribute(LYFT_AUTHENTICATED, accessTokenJSON.getString("access_token"));
-
+		LOGGER.info("access token: " + accessTokenJSON.getString("access_token"));
+		
 		int timeOut = accessTokenJSON.getInt("expires_in");
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, timeOut / 60);
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd-HH:mm:ss");
 		String expiredTime = sdf.format(cal.getTime());
 		req.getSession().setAttribute(LYFT_AUTHENTICATED_TIME_OUT, expiredTime);
+		
 
+		LOGGER.info("Logged in with expired time: " + expiredTime);
+		
 		req.getRequestDispatcher(MAIN_JSP).forward(req, resp);
 
 	}

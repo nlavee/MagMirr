@@ -89,7 +89,7 @@
 				<legend>Message broadcast</legend>
 				<textarea name=<%=textBox%> cols="50" rows="5">Enter your message here...</textarea>
 				<br /> <input type="submit" value="Submit">
-				<%
+				<%-- <%
 					if(request.getSession().getAttribute(messageForwarded) != null)
 					{
 						if(request.getSession().getAttribute(messageForwarded).equals(true))
@@ -106,7 +106,7 @@
 						}
 						request.getSession().setAttribute(messageForwarded, null);
 					}
-				%>
+				%> --%>
 			</fieldset>
 		</form>
 	</div>
@@ -131,22 +131,22 @@
 						// load the zip code from previous section ?
 					}
 				
-					if(request.getSession().getAttribute(weatherForwarded) != null)
-					{
-						if(request.getSession().getAttribute(weatherForwarded).equals(true))
-						{
-							%>
-							<p>Your weather has been posted successfully.</p>
-							<%
-						}
-						else
-						{
-							%>
-							<p>ERROR: Your weather has failed to be posted. Please try again.</p>
-							<%
-						}
-						request.getSession().setAttribute(weatherForwarded, null);
-					}
+					//if(request.getSession().getAttribute(weatherForwarded) != null)
+					//{
+					//	if(request.getSession().getAttribute(weatherForwarded).equals(true))
+					//	{
+					//		%>
+					<!-- 		<p>Your weather has been posted successfully.</p>
+					 -->		<%
+					//	}
+					//	else
+					//	{
+					//		%>
+					<!-- 		<p>ERROR: Your weather has failed to be posted. Please try again.</p>
+					 -->		<%
+					//	}
+					//	request.getSession().setAttribute(weatherForwarded, null);
+					//}
 				%>
 			</fieldset>
 		</form>
@@ -181,7 +181,7 @@
 			%>
 		</div>
 		<div>
-			<%
+			<%-- <%
 			if(request.getSession().getAttribute(newsForwarded) != null)
 			{
 				if(request.getSession().getAttribute(newsForwarded).equals(true))
@@ -198,7 +198,7 @@
 					}
 					request.getSession().setAttribute(newsForwarded, null);
 			}
-			%>	
+			%>	 --%>
 			</div>	
 		</fieldset>
 	</div>
@@ -206,7 +206,7 @@
 	<div id="lyft_authentication" class="mode_ops">
 		<%
 			Calendar cal = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd-HH:mm:ss");
 			String currentTime = sdf.format(cal.getTime());
 			boolean pastTime = false;
 			
@@ -218,7 +218,7 @@
 							sdf.parse((String) request.getSession()
 									.getAttribute(lyftAuthenticatedExpired)));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
@@ -244,7 +244,7 @@
 				<input type="hidden" name="mode" value="rideType"/>
 				<input type="submit" id="submit" class="input" value="Get Ride Type" name="getRide"/>
 				
-				<%
+				<%-- <%
 					if(request.getSession().getAttribute(lyftRideTypeForwarded) != null)
 					{
 						if(request.getSession().getAttribute(lyftRideTypeForwarded).equals(true))
@@ -261,7 +261,7 @@
 						}
 						request.getSession().setAttribute(lyftRideTypeForwarded, null);
 					}
-				%>				
+				%>		 --%>		
 				
 			</fieldset>
 		</form>
@@ -271,7 +271,7 @@
 				<input type="hidden" name="mode" value="ETA"/>
 				<input type="submit" id="submit" class="input" value="Get ETA" name="ETA"/>
 				
-				<%
+				<%-- <%
 					if(request.getSession().getAttribute(lyftETAForwarded) != null)
 					{
 						if(request.getSession().getAttribute(lyftETAForwarded).equals(true))
@@ -288,7 +288,7 @@
 						}
 						request.getSession().setAttribute(lyftETAForwarded, null);
 					}
-				%>
+				%> --%>
 				
 			</fieldset>
 		</form>
@@ -298,7 +298,7 @@
 				<input type="hidden" name="mode" value="cost"/>
 				<input type="submit" id="submit" class="input" value="Get Cost" name="Cost"/>
 				
-				<%
+				<%-- <%
 					if(request.getSession().getAttribute(lyftCostForwarded) != null)
 					{
 						if(request.getSession().getAttribute(lyftCostForwarded).equals(true))
@@ -315,7 +315,7 @@
 						}
 						request.getSession().setAttribute(lyftCostForwarded, null);
 					}
-				%>
+				%> --%>
 				
 			</fieldset>
 		</form>

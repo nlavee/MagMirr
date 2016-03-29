@@ -328,13 +328,16 @@ public class ObjMapping extends AbstractMapper {
 		DatabaseConnection connection = null;
 		PreparedStatement stmt = null;
 		
+		int Id = queryForID(userName);
+		
 		try {
 			connection = this.getDatabaseConnection();
 			stmt = connection.setupPreparedStatement(
-					"update weather set zipcode = ? where user_id = ?"
+					"insert into weather (user_id, zipcode) values (?,?) on duplicate key update zipcode = (?);"
 					);
-			stmt.setInt(1, zipcode);
-			stmt.setString(2, userName);
+			stmt.setInt(1, Id);
+			stmt.setInt(2, zipcode);
+			stmt.setInt(3, zipcode);
 
 			connection.runUpdate(stmt);
 		} catch (SQLException e) {
@@ -364,11 +367,133 @@ public class ObjMapping extends AbstractMapper {
 		}
 	}
 	
+	private int queryForID(String userName) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int Id = -1;
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+			"select id from user where username = ?;"
+					);
+			stmt.setString(1, userName);
+			rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Id = rs.getInt("id");
+			}
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot query for id", e);
+		}
+		
+		return Id;
+		
+	}
+
+	public void saveNewsSection(String section, String username) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		
+		int Id = queryForID(username);
+		int sectionId = queryForSectionID(section);
+		
+		clearPreviousSavedSection(Id);
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+					"insert into news_user (user_id, news_id) values (?,?);"
+					);
+			stmt.setInt(1, Id);
+			stmt.setInt(2, sectionId);
+
+			connection.runQuery(stmt);
+		} catch (SQLException e) {
+			LOG.error("Could not update weather location ", e);
+		}
+		finally
+		{
+			if(stmt != null)
+			{
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					LOG.error("Could not close statement", e);
+				}
+			}
+			if(connection != null)
+			{
+				try
+				{
+					connection.closeStatement(stmt);
+				}
+				catch(Throwable e)
+				{
+					LOG.error("Could not close connection ", e);
+				}
+			}
+		}
+		
+	}
+	
+	private void clearPreviousSavedSection(int userID) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		
+		try{
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+					"delete from news_user where user_id = ? ");
+			stmt.setInt(1, userID);
+			
+			stmt.execute();
+		}
+		catch (SQLException e)
+		{
+			LOG.error("Cannot clear saved news section", e);
+		}
+		
+	}
+
+	private int queryForSectionID(String section) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int Id = -1;
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+			"select id from news where section_name = ?;"
+					);
+			stmt.setString(1, section);
+			rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Id = rs.getInt("id");
+			}
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot query for id", e);
+		}
+		
+		return Id;
+	}
+
 	public static void main(String[] args)
 	{
 		ObjMapping um = new ObjMapping();
 		System.out.println(um.getFirstName("test_nujabes"));
 		System.out.println(um.isMatchingPassword("password", "test_nujabes"));
 	}
+
+
 
 }
