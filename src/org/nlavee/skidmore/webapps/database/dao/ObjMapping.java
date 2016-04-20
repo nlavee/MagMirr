@@ -2,10 +2,12 @@ package org.nlavee.skidmore.webapps.database.dao;
 
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.backends.DatabaseConnection;
+import org.nlavee.skidmore.webapps.database.beans.Message;
 import org.nlavee.skidmore.webapps.database.beans.NewUser;
 import org.nlavee.skidmore.webapps.database.beans.Password;
 import org.nlavee.skidmore.webapps.web.utils.PasswordUtils;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -412,7 +414,7 @@ public class ObjMapping extends AbstractMapper {
 			stmt.setInt(1, Id);
 			stmt.setInt(2, sectionId);
 
-			connection.runQuery(stmt);
+			connection.runUpdate(stmt);
 		} catch (SQLException e) {
 			LOG.error("Could not update weather location ", e);
 		}
@@ -448,10 +450,10 @@ public class ObjMapping extends AbstractMapper {
 		try{
 			connection = this.getDatabaseConnection();
 			stmt = connection.setupPreparedStatement(
-					"delete from news_user where user_id = ? ");
+					"delete from news_user where user_id = ?");
 			stmt.setInt(1, userID);
 			
-			stmt.execute();
+			stmt.executeUpdate();
 		}
 		catch (SQLException e)
 		{
@@ -492,6 +494,146 @@ public class ObjMapping extends AbstractMapper {
 		ObjMapping um = new ObjMapping();
 		System.out.println(um.getFirstName("test_nujabes"));
 		System.out.println(um.isMatchingPassword("password", "test_nujabes"));
+	}
+
+	public boolean registerMirror(String ip, String userName) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		
+		int id = createMirror(ip);
+		int userID = queryForID(userName);
+		boolean success = false;
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+			"insert into mirror_user (mirror_id, user_id, privilege_id) values (?, ?, ?)"
+					);
+			stmt.setInt(1, id);
+			stmt.setInt(2, userID);
+			stmt.setInt(3, 1);
+			
+			stmt.executeUpdate();
+			success = true;
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot query for id", e);
+		}
+		finally{
+			if(connection != null)
+			{
+				connection.closeStatement(stmt);
+			}
+		}
+		
+		return success;
+	}
+
+	private int createMirror(String ip) {
+		DatabaseConnection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int Id = -1;
+		
+		try {
+			connection = this.getDatabaseConnection();
+			stmt = connection.setupPreparedStatement(
+			"select id from mirror where mirror_IP_address = ?;"
+					);
+			stmt.setString(1, ip);
+			rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Id = rs.getInt("id");
+			}
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot query for mirror id", e);
+		}
+		
+		if(Id == -1)
+		{
+			try{
+			stmt = connection.setupPreparedStatement(
+					"insert into mirror (mirror_IP_address) values (?)");
+			stmt.setString(1, ip);
+			stmt.executeUpdate();
+			
+			}
+			catch( SQLException e)
+			{
+				LOG.error("Cannot insert mirror id", e);
+			}
+			
+			try {
+				connection = this.getDatabaseConnection();
+				stmt = connection.setupPreparedStatement(
+				"select id from mirror where mirror_IP_address = ?;"
+						);
+				stmt.setString(1, ip);
+				rs = stmt.executeQuery();
+				
+				while(rs.next())
+				{
+					Id = rs.getInt("id");
+				}
+			}
+			catch( SQLException e)
+			{
+				LOG.error("Cannot query for mirror id", e);
+			}
+			finally
+			{
+				if(rs != null)
+				{
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				if(connection != null)
+				{
+					connection.closeStatement(stmt);
+				}
+			}
+		}
+		return Id;
+	}
+
+	public boolean saveMessage(Message newMessage, String userName) {
+		DatabaseConnection conn = null;
+		PreparedStatement stmt = null;
+		boolean success = false;
+		int id = queryForID(userName);
+		
+		try {
+			conn = getDatabaseConnection();
+			String sql = "insert into message (user_id, timestamp, body) values (?,?,?);";
+			stmt = conn.setupPreparedStatement(sql);
+			stmt.setInt(1, id);
+			stmt.setDate(2, new java.sql.Date(newMessage.getTime().getTime()));
+			stmt.setString(3, newMessage.getBody());
+			
+			stmt.executeUpdate();
+			success = true;
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot save a message", e);
+		}
+		finally
+		{
+			if(conn != null)
+			{
+				conn.closeStatement(stmt);
+			}
+		}
+		return success;
 	}
 
 

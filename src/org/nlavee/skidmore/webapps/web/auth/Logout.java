@@ -104,7 +104,7 @@ public class Logout extends HttpServlet implements VarNames {
 		req.getSession().invalidate();
 		
 		// do other things for log in
-		req.getRequestDispatcher(LOGIN_JSP).forward(req,resp);
+		req.getRequestDispatcher(INDEX).forward(req,resp);
 	}
 
 	private void saveInformation(HttpServletRequest req) {

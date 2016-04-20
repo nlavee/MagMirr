@@ -50,18 +50,17 @@ public class UserInterfaceImpl implements UserInterface{
 	}
 
 	@Override
-	public boolean saveMessage(String body, Date date) {
+	public boolean saveMessage(String body, Date date, String userName) {
 		
-		SimpleDateFormat dtFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-		String dateFormatted = dtFormat.format(date);
-		
-		Message newMessage = new Message(body, dateFormatted);
+		Message newMessage = new Message(body, date);
 		
 		/*
 		 * TODO Save message to database
 		 */
+		ObjMapping om = new ObjMapping();
+		boolean success = om.saveMessage(newMessage, userName);
 		
-		return true;
+		return success;
 	}
 
 	@Override

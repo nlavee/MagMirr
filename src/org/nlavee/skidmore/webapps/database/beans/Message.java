@@ -1,13 +1,15 @@
 package org.nlavee.skidmore.webapps.database.beans;
 
+import java.util.Date;
+
 public class Message {
 
 	private String body;
-	private String time;
+	private Date time;
 	
-	public Message(String body, String time) {
+	public Message(String body, Date date) {
 		this.body = body;
-		this.time = time;
+		this.time = date;
 	}
 
 	public String getBody() {
@@ -18,11 +20,11 @@ public class Message {
 		this.body = body;
 	}
 
-	public String getTime() {
+	public Date getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(Date time) {
 		this.time = time;
 	}
 

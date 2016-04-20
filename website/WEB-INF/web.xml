@@ -179,8 +179,7 @@
     <servlet-name>register</servlet-name>
     <url-pattern>/register/*</url-pattern>
   </servlet-mapping>
-  
-  
+  	
     <!-- Preload the JSP -->
   <servlet>
     <servlet-name>edittask-jsp</servlet-name>
@@ -199,6 +198,6 @@
   </session-config>
 
   <welcome-file-list>
-    <welcome-file>/index.html</welcome-file>
+    <welcome-file>main</welcome-file>
   </welcome-file-list>
 </web-app>

@@ -96,29 +96,14 @@ public class Message extends HttpServlet implements VarNames {
 			 * Forward this messageBody to database
 			 */
 			UserInterfaceImpl userOps = new UserInterfaceImpl();
-			boolean success = userOps.saveMessage(messageBody, date);
+			String userName = (String) req.getSession().getAttribute(USER_PARAM_FIELD_NAME);
+			boolean success = userOps.saveMessage(messageBody, date, userName);
 
 			if(success)
 			{
-				/*
-				 * Forward this message to the mirror
-				 */
-				ConnectorWrapper connector = new ConnectorWrapper();
-				boolean mirrorFetch = connector.forwardMessage(messageBody);
-				
-				/*
-				 * Return response saying that it's successful
-				 */
-				if(mirrorFetch)
-				{
-					req.getSession().setAttribute(MESSAGE_FORWARDED_STATUS, true);
-				}
-				else
-				{
-					// TODO consider deleting the message from db if we cannot send it to mirror?
-					LOGGER.error("Can't forward to mirror");
-					req.getSession().setAttribute(MESSAGE_FORWARDED_STATUS, false);
-				}
+
+				req.getSession().setAttribute(MESSAGE_FORWARDED_STATUS, true);
+
 			}
 			else
 			{

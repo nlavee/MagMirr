@@ -323,7 +323,9 @@
 			}
 		%>
 	</div>
-
+		<form method="post" action="register">
+			<input type="submit" value="Register New Mirror"/>
+		</form>
 	<div class="info">
 		<p>
 			<i>&lt;working project of @nlavee (vu.nguyen@skidmore.edu).&gt;</i>

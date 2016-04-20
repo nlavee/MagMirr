@@ -36,6 +36,8 @@ public interface VarNames {
 	public static final String MIRROR_ON = "mirror_on";
 	public static final String MIRROR_IP = "mirror_ip";
 	public static final String MIRROR_RANGE_GEN = "mirror_range_generated";
+	public static final String MIRROR_ADDED_ATTRIBUTE = "mirror_added";
+	
 	
 	/**
 	 * Different sections available
@@ -109,13 +111,14 @@ public interface VarNames {
 	public final static String MAP_COST_JSP = "/WEB-INF/hiddenjsp/map_cost.jsp";	
 	
 	/*
-	 * JSP path to client_welcome.jsp
+	 * JSP Path to register mirror.jsp 
 	 */
-	public final static String CLIENT_WELCOME_JSP = "/WEB-INF/hiddenjsp/client_welcome.jsp";
+	public final static String REGISTER_MIRROR_JSP = "/WEB-INF/hiddenjsp/register_mirror.jsp";
 	
 	/*
-	 * JSP path to client_main.jsp
+	 * Path to index.html
 	 */
-	public final static String CLIENT_MAIN_JSP = "/WEB-INF/hiddenjsp/client_main.jsp";	
-
+	public final static String INDEX = "index.html";
+	
+	
 }

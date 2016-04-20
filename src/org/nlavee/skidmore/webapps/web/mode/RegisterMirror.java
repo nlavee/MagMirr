@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.nlavee.skidmore.webapps.database.dao.ObjMapping;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.model.IPAddress;
 
@@ -88,40 +89,33 @@ public class RegisterMirror extends HttpServlet implements VarNames {
 	 * @throws ServletException 
 	 */
 	private void controller(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String ipAddr = req.getRemoteHost();
 		
-		String fwdPath = CLIENT_WELCOME_JSP;
-		
-		IPAddress requestAddr = new IPAddress(ipAddr);
-		
-		boolean isLegitMirror = checkIPAddress(requestAddr);
-		
-		if(isLegitMirror)
+		String forwardPath = REGISTER_MIRROR_JSP;
+		if(req.getParameter(MIRROR_IP) != null)
 		{
-			req.getSession().setAttribute(MIRROR_ON, true);
-			req.getSession().setAttribute(MIRROR_IP, requestAddr);
-			/*
-			 * Set other attributes here?
-			 */
+			String ip = req.getParameter(MIRROR_IP);
+			String userName = req.getSession().getAttribute(USER_PARAM_FIELD_NAME).toString();
 			
-			fwdPath = CLIENT_MAIN_JSP;
+			boolean success = registerMirror(ip, userName);
+			if(success)
+			{
+				req.getSession().setAttribute(MIRROR_ADDED_ATTRIBUTE, "true");
+			}
+			else
+			{
+				req.getSession().setAttribute(MIRROR_ADDED_ATTRIBUTE, "false");
+			}
 		}
 		else
 		{
-			// maybe forward to register mirror jsp, where you have to enter a code
-			// that links you to your user id
-			double generatedNum = 0;
-			req.getSession().setAttribute(MIRROR_RANGE_GEN, generatedNum);
+			req.getSession().setAttribute(MIRROR_ADDED_ATTRIBUTE, false);
 		}
-		
-		req.getRequestDispatcher(fwdPath).forward(req, resp);
+		req.getRequestDispatcher(REGISTER_MIRROR_JSP).forward(req, resp);
 	}
 
-	private boolean checkIPAddress(IPAddress requestAddr) {
-		
-		// TODO Auto-generated method stub
-		
-		return true;
+	private boolean registerMirror(String ip, String userName) {
+		ObjMapping um = new ObjMapping();
+		return um.registerMirror(ip, userName);
 	}
 
 }

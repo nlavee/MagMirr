@@ -156,6 +156,7 @@ public class Login extends HttpServlet implements VarNames {
 			{
 				LOGGER.info("Nothing in input fields");
 				req.setAttribute(LOGIN_UNSUCCESSFUL, true);
+				pathForwarded = INDEX; 
 			}
 
 			req.getRequestDispatcher(pathForwarded).forward(req, resp);

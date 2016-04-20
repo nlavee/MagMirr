@@ -13,4 +13,5 @@ public class WeatherDBInterfaceImpl implements WeatherDBInterface{
 		return true;
 	}
 
+
 }
