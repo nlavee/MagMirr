@@ -14,6 +14,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<link href='https://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
 <link rel="stylesheet" type="text/css" href="staticFiles/css/status.css">
 <title>MagMirr Status</title>

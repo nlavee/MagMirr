@@ -5,26 +5,32 @@ body {
     background-position: right top;
     background-attachment: fixed;
     background-size:100% 100%;
+    font-family: 'Convergence', sans-serif;
+    text-align:center;
 }
 
 .navbar {
 	color: white;
     text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+    font-family: 'Convergence', sans-serif;
 }
 
 .welcome {
 	color: white;
     text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+    font-family: 'Convergence', sans-serif;
 }
 
 .mode_ops  {
 	color: white;
     text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+    font-family: 'Convergence', sans-serif;
 }
 
 .info {
 	color: white;
     text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+    font-family: 'Convergence', sans-serif;
 }
 
 ul {
@@ -32,12 +38,14 @@ ul {
     margin: 0;
     padding: 0;
     text-shadow: none;
+    font-family: 'Convergence', sans-serif;
 }
 
 li {
     float: left;
     border: 1px solid #bbb;
     background-color:azure;
+    font-family: 'Convergence', sans-serif;
 }
 
 li a {
@@ -46,30 +54,41 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'Convergence', sans-serif;
 }
 
 li:last-child {
     border-right: none;
+    font-family: 'Convergence', sans-serif;
 }
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
     background-color: #111;
+    font-family: 'Convergence', sans-serif;
 }
 
 .active {
     background-color: #4CAF50;
+    font-family: 'Convergence', sans-serif;
 }
 
 a {
 	color: cyan;
 	text-shadow: none;
+	font-family: 'Convergence', sans-serif;
 }
 
 .info {
 	text-align: center;
+	font-family: 'Convergence', sans-serif;
 }
 
 #welcome {
 	text-align:center;
+	font-family: 'Convergence', sans-serif;
+}
+
+p {
+	font-family: 'Convergence', sans-serif;
 }

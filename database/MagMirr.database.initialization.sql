@@ -39,7 +39,7 @@ create table message (
 	id integer(10) auto_increment not null,
 	user_id integer(10) not null,
 	timestamp date not null,
-	body varchar(100) not null,
+	body text not null,
 	primary key (id)
 );
 
@@ -59,7 +59,7 @@ create table mirror_user (
 
 create table news (
 	id integer(10) auto_increment not null,
-	section_name varchar(100) not null,
+	section_name text(100) not null,
 	primary key (id)
 );
 
@@ -70,12 +70,20 @@ create table news_user (
 	primary key (id)
 );
 
-create table uber_API (
+create table lyft_API (
 	id integer(10) auto_increment not null,
 	key_api varchar(200) not null,
 	secret_api varchar(200) not null,
 	primary key (id)
 );
+
+create table lyft_data (
+	id integer(10) auto_increment not null,
+	user_id integer(10) not null,
+	json_object text not null,
+	primary key (id)
+);
+
 
 create table weather (
 	id integer(10) auto_increment not null,
