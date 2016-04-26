@@ -120,6 +120,8 @@ public class News extends HttpServlet implements VarNames {
 			NewsDBInterfaceImpl newsDB = new NewsDBInterfaceImpl();
 			for(String section : sectionSelected)
 			{
+				if(section.equals("realestate")) section = "real estate";
+				if(section.equals("nyregion")) section = "ny region";
 				newsDB.saveSection(section,userName);
 			}
 			

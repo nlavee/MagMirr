@@ -636,6 +636,40 @@ public class ObjMapping extends AbstractMapper {
 		return success;
 	}
 
+	public boolean persistLyftData(String toSave, String userName) {
+		DatabaseConnection conn =  null;
+		PreparedStatement stmt = null;
+		
+		boolean success = false;
+		
+		int userID = queryForID(userName);
+		
+		try
+		{
+			conn = getDatabaseConnection();
+			String sql = "insert into lyft_data (user_id, json_object) values (?,?) on duplicate key update json_object = (?)";
+			stmt = conn.setupPreparedStatement(sql);
+			stmt.setInt(1, userID);
+			stmt.setString(2, toSave);
+			stmt.setString(3, toSave);
+			
+			stmt.executeUpdate();
+			success = true;
+		}
+		catch( SQLException e)
+		{
+			LOG.error("Cannot persis data for lyft", e);
+		}
+		finally
+		{
+			if(conn != null)
+			{
+				conn.closeStatement(stmt);
+			}
+		}
+		return success;
+	}
+
 
 
 }

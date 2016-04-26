@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
@@ -90,8 +91,10 @@ public class Message extends HttpServlet implements VarNames {
 
 		if(req.getParameter(MAIN_TEXT_BOX) != null)
 		{
-			String messageBody = StringUtils.trim(req.getParameter(MAIN_TEXT_BOX));
+			// escape to html4 straight away after getting parameter
+			String messageBody =  StringEscapeUtils.escapeHtml4(StringUtils.trim(req.getParameter(MAIN_TEXT_BOX)));
 			Date date = new Date();
+			
 			/*
 			 * Forward this messageBody to database
 			 */

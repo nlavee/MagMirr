@@ -193,6 +193,17 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
+   <error-page>
+  	<error-code>404</error-code>
+  	<location>/WEB-INF/hiddenjsp/404.jsp</location>
+  </error-page>
+  	
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/WEB-INF/hiddenjsp/404.jsp</location>
+  </error-page>
+  	
+  	
   <session-config>
     <session-timeout>120</session-timeout>
   </session-config>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.nlavee.skidmore.webapps.database.beans.Coords;
+import org.nlavee.skidmore.webapps.database.interfaces.impl.LyftDBInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
 import org.nlavee.skidmore.webapps.web.api.impl.ConnectorWrapper;
 import org.nlavee.skidmore.webapps.web.api.impl.LyftAPIWrapper;
@@ -98,6 +99,7 @@ public class LyftOps extends HttpServlet implements VarNames{
 	private void LyftOperationController(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		String pathFwd = MAIN_JSP;
+		String userName = (String) req.getSession().getAttribute(USER_PARAM_FIELD_NAME);
 		
 		if(req.getParameter("mode") != null)
 		{
@@ -124,8 +126,8 @@ public class LyftOps extends HttpServlet implements VarNames{
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
 				JSONObject lyftResponse = getRideTypeViaAPI(coord, sessionToken);
 				
-				ConnectorWrapper connector = new ConnectorWrapper();
-				boolean success = connector.forwardLyftRideType(lyftResponse);
+				LyftDBInterfaceImpl lyftDB = new LyftDBInterfaceImpl();
+				boolean success = lyftDB.persistRideType(lyftResponse, userName);
 				
 				if(success)
 				{
@@ -146,8 +148,8 @@ public class LyftOps extends HttpServlet implements VarNames{
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
 				JSONObject lyftResponse = getETAViaAPI(coord, sessionToken);
 				
-				ConnectorWrapper connector = new ConnectorWrapper();
-				boolean success = connector.forwardLyftETA(lyftResponse);
+				LyftDBInterfaceImpl lyftDB = new LyftDBInterfaceImpl();
+				boolean success = lyftDB.persistETA(lyftResponse, userName);
 				
 				if(success)
 				{
@@ -162,7 +164,6 @@ public class LyftOps extends HttpServlet implements VarNames{
 			}
 			else if(req.getParameter("mode").equals("getCost"))
 			{
-				// TODO: fix js to get two points
 				String latStart = req.getParameter("latStart");
 				String lonStart = req.getParameter("lonStart");
 				Coords coordStart = new Coords(Double.parseDouble(latStart), Double.parseDouble(lonStart));
@@ -174,8 +175,8 @@ public class LyftOps extends HttpServlet implements VarNames{
 				String sessionToken = (String) req.getSession().getAttribute(LYFT_AUTHENTICATED);
 				JSONObject lyftResponse = getCostViaAPI(coordStart, coordEnd, sessionToken);
 				
-				ConnectorWrapper connector = new ConnectorWrapper();
-				boolean success = connector.forwardLyftCost(lyftResponse);
+				LyftDBInterfaceImpl lyftDB = new LyftDBInterfaceImpl();
+				boolean success = lyftDB.persistCostEstimate(lyftResponse, userName);
 				
 				if(success)
 				{
