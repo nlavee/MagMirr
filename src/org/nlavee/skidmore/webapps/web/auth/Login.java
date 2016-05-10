@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.nlavee.skidmore.webapps.database.beans.User;
 import org.nlavee.skidmore.webapps.database.interfaces.impl.UserInterfaceImpl;
 import org.nlavee.skidmore.webapps.web.VarNames;
+import org.nlavee.skidmore.webapps.web.utils.RandomnessUtils;
 
 public class Login extends HttpServlet implements VarNames {
 	/**
@@ -156,7 +157,12 @@ public class Login extends HttpServlet implements VarNames {
 			{
 				LOGGER.info("Nothing in input fields");
 				req.setAttribute(LOGIN_UNSUCCESSFUL, true);
-				pathForwarded = INDEX; 
+				
+				// generate random token
+				//RandomnessUtils ran = new RandomnessUtils();
+				//String randomToken = ran.generateRandomToken();
+				//req.getSession().setAttribute(TOKEN, randomToken);
+				pathForwarded = FRONT_PAGE; 
 			}
 
 			req.getRequestDispatcher(pathForwarded).forward(req, resp);

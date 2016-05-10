@@ -20,6 +20,9 @@
 <meta charset="utf-8" />
 <link href='https://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 <title>MagMirr Login</title>
 </head>
 
@@ -45,7 +48,7 @@
 	<!-- Website Content -->
 	<div class="welcome">
 		<h1 id="welcome" class="instruction">Welcome To The
-			Authentication Page For MagMirr 0.1.</h1>
+			Authentication Page For MagMirr 0.3.</h1>
 		<hr />
 	</div>
 
@@ -62,13 +65,16 @@
 		%>
 		<br />
 		<form method="post" id="auth" class="auth" action="main">
-			Username* : <input type="text" id="username" maxlength="100"
-				class="input" name="<%=userName%>" /> <br /> Password* : <input
-				type=password id="pwd" maxlength="100" class="input"
-				name="<%=password%>" /> <br /> Remember me? <input type="checkbox"
-				id="remember" class="input" name="<%=remember%>" /> <input
-				type="submit" id="submit" class="input" value="submit" />
-		</form>
+        		<div class="mdl-textfield mdl-js-textfield">
+					<input type="text" id="username" maxlength="100" class="mdl-textfield__input" name="user_name" />
+					<label class="mdl-textfield__label" for="username">Username*...</label>
+					</div><br />
+					<div class="mdl-textfield mdl-js-textfield"> 
+					<input type=password id="pwd" maxlength="100" class="mdl-textfield__input" name="password" /> 
+					<label class="mdl-textfield__label" for="password">Password*...</label>
+					</div><br/>
+					<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" value="submit" />
+			</form>
 		<p>
 			<i>* means the field is required to be completed.</i>
 		</p>

@@ -47,7 +47,7 @@
 
 	<!-- Website Content -->
 	<div class="welcome">
-		<h1 id="welcome" class="instruction">MagMirr 0.1 Registering Mirror.</h1>
+		<h1 id="welcome" class="instruction">MagMirr 0.3. Registering Mirror.</h1>
 	</div>
 
 	<div id="message_posting" class="mode_ops">

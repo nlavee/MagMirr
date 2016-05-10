@@ -37,7 +37,7 @@ public interface VarNames {
 	public static final String MIRROR_IP = "mirror_ip";
 	public static final String MIRROR_RANGE_GEN = "mirror_range_generated";
 	public static final String MIRROR_ADDED_ATTRIBUTE = "mirror_added";
-	
+	public static final String TOKEN = "token";
 	
 	/**
 	 * Different sections available
@@ -118,7 +118,7 @@ public interface VarNames {
 	/*
 	 * Path to index.html
 	 */
-	public final static String INDEX = "index.html";
+	public final static String FRONT_PAGE = "/WEB-INF/hiddenjsp/front_page.jsp";
 	
 	
 }

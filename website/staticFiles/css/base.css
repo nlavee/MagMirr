@@ -1,6 +1,5 @@
 body {
-    background-image: url("../img/background.jpg");
-    background-color: lightblue;
+    background-color: paleturquoise;
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: fixed;
@@ -10,26 +9,23 @@ body {
 }
 
 .navbar {
-	color: white;
+	color: black;
     text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
     font-family: 'Convergence', sans-serif;
 }
 
 .welcome {
-	color: white;
-    text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+	color: black;
     font-family: 'Convergence', sans-serif;
 }
 
 .mode_ops  {
-	color: white;
-    text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+	color: black;
     font-family: 'Convergence', sans-serif;
 }
 
 .info {
-	color: white;
-    text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+	color: black;
     font-family: 'Convergence', sans-serif;
 }
 
@@ -91,4 +87,10 @@ a {
 
 p {
 	font-family: 'Convergence', sans-serif;
+}
+
+#selection_box
+{
+	width: 200px;
+	height:250px;
 }

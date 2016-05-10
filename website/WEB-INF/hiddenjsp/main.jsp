@@ -50,6 +50,9 @@
 <meta charset="utf-8" />
 <link href='https://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 <title>MagMirr Dashboard</title>
 </head>
 
@@ -75,7 +78,7 @@
 
 	<!-- Website Content -->
 	<div class="welcome">
-		<h1 id="welcome" class="instruction">MagMirr 0.1 Main Dashboard.</h1>
+		<h1 id="welcome" class="instruction">MagMirr 0.3. Main Dashboard.</h1>
 		<h3 class="instruction">
 			Hello
 			<%=(request.getSession().getAttribute(firstName) == null ? "there."
@@ -88,36 +91,23 @@
 		<form action="message" method="post">
 			<fieldset>
 				<legend>Message broadcast</legend>
-				<textarea name=<%=textBox%> cols="50" rows="5">Enter your message here...</textarea>
-				<br /> <input type="submit" value="Submit">
-				<%-- <%
-					if(request.getSession().getAttribute(messageForwarded) != null)
-					{
-						if(request.getSession().getAttribute(messageForwarded).equals(true))
-						{
-							%>
-							<p>Your message has been posted successfully.</p>
-							<%
-						}
-						else
-						{
-							%>
-							<p>ERROR: Your message has failed to be posted. Please try again.</p>
-							<%
-						}
-						request.getSession().setAttribute(messageForwarded, null);
-					}
-				%> --%>
+				<div class="mdl-textfield mdl-js-textfield">
+				<textarea name=<%=textBox%> cols="50" rows="5" class="mdl-textfield__input" id="message">Enter your message here...</textarea>
+				<label class="mdl-textfield__label" for="sample5">Enter your message here...</label>
+				</div>
+				<br /> <input class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Submit">
 			</fieldset>
 		</form>
 	</div>
-
+	<br/>
+	<hr/>
 	<div id="weather_choosing" class="mode_ops">
 		<form action="weather" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Weather Display Tool</legend>
-				Your Zipcode: <input type="number" name=<%=zipcode%> /> <input
-					type="submit" id="submit" class="input" value="Display Weather" />
+				Your Zipcode: <input type="number" name=<%=zipcode%> /> 
+				<br/><br/>
+				<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Display Weather" />
 				<br />
 				<%
 					if (request.getAttribute(currentZipCode) != null) {
@@ -128,36 +118,18 @@
 					<%=request.getAttribute(currentTemp)%>&#x2103;.
 				</p>
 				<%
-					} else {
-						// load the zip code from previous section ?
 					}
-				
-					//if(request.getSession().getAttribute(weatherForwarded) != null)
-					//{
-					//	if(request.getSession().getAttribute(weatherForwarded).equals(true))
-					//	{
-					//		%>
-					<!-- 		<p>Your weather has been posted successfully.</p>
-					 -->		<%
-					//	}
-					//	else
-					//	{
-					//		%>
-					<!-- 		<p>ERROR: Your weather has failed to be posted. Please try again.</p>
-					 -->		<%
-					//	}
-					//	request.getSession().setAttribute(weatherForwarded, null);
-					//}
 				%>
 			</fieldset>
 		</form>
 	</div>
-
+		<br/>
+	<hr/>
 	<div id="news_choosing" class="mode_ops">
 		<fieldset>
 		<legend>News Selection Tool</legend>
 		<form action="news" method="post" id="auth" class="auth">
-				Your Selection of Topics: <br /> <select name=<%=newsSelection%>
+				Your Selection of Topics: <br /> <select name=<%=newsSelection%> id="selection_box"
 					multiple>
 
 					<%
@@ -167,7 +139,7 @@
 					<%
 						}
 					%>
-				</select><br /> <input type="submit" id="submit" class="input"
+				</select><br /><br/> <input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
 					value="Select Interested Topics" />
 		</form>
 		<div id="news_choosing" class="mode_ops">
@@ -181,29 +153,10 @@
 				}
 			%>
 		</div>
-		<div>
-			<%-- <%
-			if(request.getSession().getAttribute(newsForwarded) != null)
-			{
-				if(request.getSession().getAttribute(newsForwarded).equals(true))
-				{
-					%>
-					<p>Your news has been posted successfully.</p>
-					<%
-				}
-				else
-				{
-					%>
-					<p>ERROR: Your news has failed to be posted. Please try again.</p>
-					<%
-					}
-					request.getSession().setAttribute(newsForwarded, null);
-			}
-			%>	 --%>
-			</div>	
 		</fieldset>
 	</div>
-
+	<br/>
+	<hr/>
 	<div id="lyft_authentication" class="mode_ops">
 		<%
 			Calendar cal = Calendar.getInstance();
@@ -230,7 +183,7 @@
 		<form action="lyftOps" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft Authentication Tool</legend>
-				<input type="submit" id="submit" class="input"
+				<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
 					value="Authenticate with Lyft" />
 			</fieldset>
 		</form>
@@ -243,89 +196,32 @@
 			<fieldset>
 				<legend>Lyft Get Ride Type Tool</legend>
 				<input type="hidden" name="mode" value="rideType"/>
-				<input type="submit" id="submit" class="input" value="Get Ride Type" name="getRide"/>
-				
-				<%-- <%
-					if(request.getSession().getAttribute(lyftRideTypeForwarded) != null)
-					{
-						if(request.getSession().getAttribute(lyftRideTypeForwarded).equals(true))
-						{
-							%>
-							<p>Your Lyft ride type has been posted successfully.</p>
-							<%
-						}
-						else
-						{
-							%>
-							<p>ERROR: Your Lyft ride type has failed to be posted. Please try again.</p>
-							<%
-						}
-						request.getSession().setAttribute(lyftRideTypeForwarded, null);
-					}
-				%>		 --%>		
-				
+				<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Get Ride Type" name="getRide"/>
 			</fieldset>
 		</form>
 		<form action="lyftETA" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft ETA Tool</legend>
 				<input type="hidden" name="mode" value="ETA"/>
-				<input type="submit" id="submit" class="input" value="Get ETA" name="ETA"/>
-				
-				<%-- <%
-					if(request.getSession().getAttribute(lyftETAForwarded) != null)
-					{
-						if(request.getSession().getAttribute(lyftETAForwarded).equals(true))
-						{
-							%>
-							<p>Your Lyft ETA has been posted successfully.</p>
-							<%
-						}
-						else
-						{
-							%>
-							<p>ERROR: Your Lyft ETA has failed to be posted. Please try again.</p>
-							<%
-						}
-						request.getSession().setAttribute(lyftETAForwarded, null);
-					}
-				%> --%>
-				
+				<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Get ETA" name="ETA"/>
 			</fieldset>
 		</form>
 		<form action="lyftCost" method="post" id="auth" class="auth">
 			<fieldset>
 				<legend>Lyft Cost Tool</legend>
 				<input type="hidden" name="mode" value="cost"/>
-				<input type="submit" id="submit" class="input" value="Get Cost" name="Cost"/>
-				
-				<%-- <%
-					if(request.getSession().getAttribute(lyftCostForwarded) != null)
-					{
-						if(request.getSession().getAttribute(lyftCostForwarded).equals(true))
-						{
-							%>
-							<p>Your Lyft cost has been posted successfully.</p>
-							<%
-						}
-						else
-						{
-							%>
-							<p>ERROR: Your Lyft cost has failed to be posted. Please try again.</p>
-							<%
-						}
-						request.getSession().setAttribute(lyftCostForwarded, null);
-					}
-				%> --%>
-				
+				<input type="submit" id="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Get Cost" name="Cost"/>
 			</fieldset>
 		</form>
 		<%
 			}
 		%>
+		
+	<br/>
+	<hr/>
 	</div>
 		<form method="post" action="register">
-			<input type="submit" value="Register New Mirror"/>
+			<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" value="Register New Mirror"/>
 		</form>
 	<div class="info">
 		<p>

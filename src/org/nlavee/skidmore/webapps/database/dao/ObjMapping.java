@@ -127,8 +127,6 @@ public class ObjMapping extends AbstractMapper {
 			connection.runUpdate(stmt);
 
 			ret = true;
-			rs.close();
-			stmt.close();
 			connection.closeResultSet(rs);
 		} catch (SQLException e) {
 			LOG.error("Fail at persisting user information into user table", e);

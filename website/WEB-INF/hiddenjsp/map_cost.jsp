@@ -28,7 +28,7 @@
 
 #floating-panel {
 	position: absolute;
-	top: 20%;
+	top: 30%;
 	left: 25%;
 	z-index: 5;
 	background-color: #fff;
@@ -47,19 +47,23 @@
 </style>
 <link href='https://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="staticFiles/css/base.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 <title>MagMirr Lyft Operation</title>
 </head>
 <body>
 
+	<br/>
 	<div>
 		<form action="main" method="post" id="auth" class="auth">
-			<button type="submit" name="submit" value="Back To Main Page">Back
+			<button type="submit" name="submit" value="Back To Main Page" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Back
 				To Main Page</button>
 		</form>
 	</div>
 
 	<div class="welcome">
-		<h1 id="welcome" class="instruction">MagMirr 0.1 Lyft Operations.</h1>
+		<h1 id="welcome" class="instruction">MagMirr 0.3. Lyft Operations.</h1>
 		<h3 class="instruction">Please drag the markers to set starting and ending points for your trip.</h3>
 		<hr />
 	</div>

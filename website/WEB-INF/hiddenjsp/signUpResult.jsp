@@ -43,7 +43,7 @@
         
         <!-- Website Content -->
         <div class="welcome">
-        <h1 id="welcome" class="instruction">Thank you for signing up with Mag Mirr 0.1.</h1>
+        <h1 id="welcome" class="instruction">Thank you for signing up with Mag Mirr 0.3.</h1>
             <hr/>
          
          	<p>You have signed up for the following username: <b><%=request.getSession().getAttribute(userName)%></b>.
